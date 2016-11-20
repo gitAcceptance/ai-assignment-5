@@ -2,9 +2,11 @@
  *  Filename: ReflexAgent.java
  *  Authors: Jesse Peplinski and Andrew Valancius
  *  Course: CIS 421 ­ Artificial Intelligence
- *  Assignment: 1
- *  Due: 9/19/2016, 11:00 PM
+ *  Assignment 5: Q-Learning
+ *  First phase Due: Monday, 11/21/2016, 11:00 PM
+ *  Second phase due: Wednesday, 12/7/2016, 11:00 PM
  */
+
 
 import java.io.*;
 import java.util.*;
