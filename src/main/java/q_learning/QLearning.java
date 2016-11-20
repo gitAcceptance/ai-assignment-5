@@ -108,9 +108,9 @@ public class QLearning {
     }
 
     // Run the instance of ReflexAgent.java
-    public void run() {
+    public void run(String fileName) {
 
-        List<Integer> integers = readInputFile("input.txt");
+        List<Integer> integers = readInputFile(fileName);
         PerceptVector p;
         String moveStr;
         boolean agentOn = true;
@@ -192,8 +192,8 @@ public class QLearning {
 
     public static void main(String[] args) {
         QLearning agent = new QLearning();
-        // String fileName = args[0];
-        agent.run();
+        String fileName = args[0];
+        agent.run(fileName);
 
     }
 }
