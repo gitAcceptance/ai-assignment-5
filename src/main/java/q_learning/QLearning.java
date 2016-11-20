@@ -1,5 +1,5 @@
 /**
- *  Filename: ReflexAgent.java
+ *  Filename: QLearning.java
  *  Authors: Jesse Peplinski and Andrew Valancius
  *  Course: CIS 421 ­ Artificial Intelligence
  *  Assignment 5: Q-Learning
@@ -11,14 +11,14 @@
 import java.io.*;
 import java.util.*;
 
-public class ReflexAgent {
+public class QLearning {
 
     // Read the input file in, add each integer to an arraylist, and return the arraylist
     public ArrayList<Integer> readInputFile(String filename) {
         ArrayList<Integer> integers = new ArrayList<Integer>();
         try {
 
-            InputStream resourceStream = ReflexAgent.class.getResourceAsStream("/input.txt");
+            InputStream resourceStream = QLearning.class.getResourceAsStream("/" + filename);
 
             Scanner fileScanner = new Scanner(resourceStream);
 
@@ -30,7 +30,7 @@ public class ReflexAgent {
             }
         }
         catch(Exception e) {
-            System.out.print("input.txt is not found");
+            System.out.print(filename + " is not found");
             e.printStackTrace();
         }
         return integers;
@@ -190,8 +190,8 @@ public class ReflexAgent {
     }
 
     public static void main(String[] args) {
-
-        ReflexAgent agent = new ReflexAgent();
+        QLearning agent = new QLearning();
+        // String fileName = args[0];
         agent.run();
 
     }
