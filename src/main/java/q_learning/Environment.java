@@ -128,7 +128,7 @@ public class Environment {
 
         String[][] theBoard = new String[roomSize][roomSize];
 
-        final String theAgent = "o";
+        final String theAgent = "B";
         final String thePony = "P";
         final String theFurniture = "X";
         final String theGoal = "E";
@@ -138,7 +138,7 @@ public class Environment {
         for (Tile t : this.map) {
 
             if(t.hasAgent) {
-                theBoard[t.getRow()][t.getCol()] = "o";
+                theBoard[t.getRow()][t.getCol()] = theAgent;
             }
             else if (t.hasFurniture()) {
                 theBoard[t.getRow()][t.getCol()] = theFurniture;
