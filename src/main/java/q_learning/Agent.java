@@ -24,15 +24,15 @@ public class Agent {
     returns: a string representing the action the agent wishes to make
     */
     public static String getAction(PerceptVector v) {
-        if (v.dirtUnder == 1) return goVacuum;
+        if (v.ponyUnder == 1) return goVacuum;
 
-        if (v.dirtForward == 1) return goForward;
+        if (v.ponyForward == 1) return goForward;
 
-        if (v.dirtRight == 1) return goRight;
+        if (v.ponyRight == 1) return goRight;
 
-        if (v.dirtLeft == 1) return goLeft;
+        if (v.ponyLeft == 1) return goLeft;
 
-        if (v.dirtBehind == 1) return goRight;
+        if (v.ponyBehind == 1) return goRight;
 
         if (v.goalUnder == 1) return turnOff;
 
@@ -53,13 +53,13 @@ public class Agent {
         /*
         if touch sensor is pressed, consider randomly turning
 
-        - if I'm on a dirt pile, vacuum it up
-        - if there's a dirt pile in front of me drive forward
-        - if I'm adjacent to a dirt pile turn towards it (if there are piles to left and right, randomly pick a direction)
-        - if there's no dirt anywhere and I'm not adjacent to the goal, move forward
+        - if I'm on a pony pile, vacuum it up
+        - if there's a pony pile in front of me drive forward
+        - if I'm adjacent to a pony pile turn towards it (if there are piles to left and right, randomly pick a direction)
+        - if there's no pony anywhere and I'm not adjacent to the goal, move forward
         - if the goal is in front of me, move forward         
         - if I'm adjacent to the goal turn towards the goal
-        - if I'm on the goal and I am not adjacent to any dirt, turn off.
+        - if I'm on the goal and I am not adjacent to any pony, turn off.
 
         */
 

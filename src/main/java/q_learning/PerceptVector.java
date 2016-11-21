@@ -13,11 +13,11 @@ public class PerceptVector {
     
     // define the vector values
     public int touchSensorPushed = 0;
-    public int dirtUnder = 0;
-    public int dirtForward = 0;
-    public int dirtBehind = 0;
-    public int dirtLeft = 0;
-    public int dirtRight = 0;
+    public int ponyUnder = 0;
+    public int ponyForward = 0;
+    public int ponyBehind = 0;
+    public int ponyLeft = 0;
+    public int ponyRight = 0;
     public int goalUnder = 0;
     public int goalForward = 0;
     public int goalBehind = 0;
@@ -29,108 +29,108 @@ public class PerceptVector {
             touchSensorPushed = 1;
         }
 
-        // find out if we have dirt under
-        if (currentPos.hasDirt == true) dirtUnder = 1;
+        // find out if we have pony under
+        if (currentPos.hasPony == true) ponyUnder = 1;
 
-        // find out if we have dirt around
+        // find out if we have pony around
         if (heading == "NORTH") {
-            // checking for dirt ahead
+            // checking for pony ahead
             if (env.getTile(currentPos.getRow()+1, currentPos.getCol()) != null) {
-                if (env.getTile(currentPos.getRow()+1, currentPos.getCol()).hasDirt == true) {
-                    dirtForward = 1;
+                if (env.getTile(currentPos.getRow()+1, currentPos.getCol()).hasPony == true) {
+                    ponyForward = 1;
                 }
             }
-            // checking for dirt behind
+            // checking for pony behind
             if (env.getTile(currentPos.getRow()-1, currentPos.getCol()) != null) {
-                if (env.getTile(currentPos.getRow()-1, currentPos.getCol()).hasDirt == true) {
-                    dirtBehind = 1;
+                if (env.getTile(currentPos.getRow()-1, currentPos.getCol()).hasPony == true) {
+                    ponyBehind = 1;
                 }
             }
-            // checking for dirt left
+            // checking for pony left
             if (env.getTile(currentPos.getRow(), currentPos.getCol()-1) != null) {
-                if (env.getTile(currentPos.getRow(), currentPos.getCol()-1).hasDirt == true) {
-                    dirtLeft = 1;
+                if (env.getTile(currentPos.getRow(), currentPos.getCol()-1).hasPony == true) {
+                    ponyLeft = 1;
                 }
             }
-            // checking for dirt right
+            // checking for pony right
             if (env.getTile(currentPos.getRow(), currentPos.getCol()+1) != null) {
-                if (env.getTile(currentPos.getRow(), currentPos.getCol()+1).hasDirt == true) {
-                    dirtRight = 1;
+                if (env.getTile(currentPos.getRow(), currentPos.getCol()+1).hasPony == true) {
+                    ponyRight = 1;
                 }
             }
         } else if (heading == "SOUTH") {
-            // checking for dirt ahead
+            // checking for pony ahead
             if (env.getTile(currentPos.getRow()-1, currentPos.getCol()) != null) {
-                if (env.getTile(currentPos.getRow()-1, currentPos.getCol()).hasDirt == true) {
-                    dirtForward = 1;
+                if (env.getTile(currentPos.getRow()-1, currentPos.getCol()).hasPony == true) {
+                    ponyForward = 1;
                 }
             }
-            // checking for dirt behind
+            // checking for pony behind
             if (env.getTile(currentPos.getRow()+1, currentPos.getCol()) != null) {
-                if (env.getTile(currentPos.getRow()+1, currentPos.getCol()).hasDirt == true) {
-                    dirtBehind = 1;
+                if (env.getTile(currentPos.getRow()+1, currentPos.getCol()).hasPony == true) {
+                    ponyBehind = 1;
                 }
             }
-            // checking for dirt left
+            // checking for pony left
             if (env.getTile(currentPos.getRow(), currentPos.getCol()+1) != null) {
-                if (env.getTile(currentPos.getRow(), currentPos.getCol()+1).hasDirt == true) {
-                    dirtLeft = 1;
+                if (env.getTile(currentPos.getRow(), currentPos.getCol()+1).hasPony == true) {
+                    ponyLeft = 1;
                 }
             }
-            // checking for dirt right
+            // checking for pony right
             if (env.getTile(currentPos.getRow(), currentPos.getCol()-1) != null) {
-                if (env.getTile(currentPos.getRow(), currentPos.getCol()-1).hasDirt == true) {
-                    dirtRight = 1;
+                if (env.getTile(currentPos.getRow(), currentPos.getCol()-1).hasPony == true) {
+                    ponyRight = 1;
                 }
             }
         } else if (heading == "EAST") {
-            // checking for dirt ahead
+            // checking for pony ahead
             if (env.getTile(currentPos.getRow(), currentPos.getCol()+1) != null) {
-                if (env.getTile(currentPos.getRow(), currentPos.getCol()+1).hasDirt == true) {
-                    dirtForward = 1;
+                if (env.getTile(currentPos.getRow(), currentPos.getCol()+1).hasPony == true) {
+                    ponyForward = 1;
                 }
             }
-            // checking for dirt behind
+            // checking for pony behind
             if (env.getTile(currentPos.getRow(), currentPos.getCol()-1) != null) {
-                if (env.getTile(currentPos.getRow(), currentPos.getCol()-1).hasDirt == true) {
-                    dirtBehind = 1;
+                if (env.getTile(currentPos.getRow(), currentPos.getCol()-1).hasPony == true) {
+                    ponyBehind = 1;
                 }
             }
-            // checking for dirt left
+            // checking for pony left
             if (env.getTile(currentPos.getRow()+1, currentPos.getCol()) != null) {
-                if (env.getTile(currentPos.getRow()+1, currentPos.getCol()).hasDirt == true) {
-                    dirtLeft = 1;
+                if (env.getTile(currentPos.getRow()+1, currentPos.getCol()).hasPony == true) {
+                    ponyLeft = 1;
                 }
             }
-            // checking for dirt right
+            // checking for pony right
             if (env.getTile(currentPos.getRow()-1, currentPos.getCol()) != null) {
-                if (env.getTile(currentPos.getRow()-1, currentPos.getCol()).hasDirt == true) {
-                    dirtRight = 1;
+                if (env.getTile(currentPos.getRow()-1, currentPos.getCol()).hasPony == true) {
+                    ponyRight = 1;
                 }
             }
         } else if (heading == "WEST") {
-            // checking for dirt ahead
+            // checking for pony ahead
             if (env.getTile(currentPos.getRow(), currentPos.getCol()-1) != null) {
-                if (env.getTile(currentPos.getRow(), currentPos.getCol()-1).hasDirt == true) {
-                    dirtForward = 1;
+                if (env.getTile(currentPos.getRow(), currentPos.getCol()-1).hasPony == true) {
+                    ponyForward = 1;
                 }
             }
-            // checking for dirt behind
+            // checking for pony behind
             if (env.getTile(currentPos.getRow(), currentPos.getCol()+1) != null) {
-                if (env.getTile(currentPos.getRow(), currentPos.getCol()+1).hasDirt == true) {
-                    dirtBehind = 1;
+                if (env.getTile(currentPos.getRow(), currentPos.getCol()+1).hasPony == true) {
+                    ponyBehind = 1;
                 }
             }
-            // checking for dirt left
+            // checking for pony left
             if (env.getTile(currentPos.getRow()-1, currentPos.getCol()) != null) {
-                if (env.getTile(currentPos.getRow()-1, currentPos.getCol()).hasDirt == true) {
-                    dirtLeft = 1;
+                if (env.getTile(currentPos.getRow()-1, currentPos.getCol()).hasPony == true) {
+                    ponyLeft = 1;
                 }
             }
-            // checking for dirt right
+            // checking for pony right
             if (env.getTile(currentPos.getRow()+1, currentPos.getCol()) != null) {
-                if (env.getTile(currentPos.getRow()+1, currentPos.getCol()).hasDirt == true) {
-                    dirtRight = 1;
+                if (env.getTile(currentPos.getRow()+1, currentPos.getCol()).hasPony == true) {
+                    ponyRight = 1;
                 }
             }
         }
@@ -191,50 +191,50 @@ public class PerceptVector {
                 }
             }
         } else if (heading == "EAST") {
-            // checking for dirt ahead
+            // checking for pony ahead
             if (env.getTile(currentPos.getRow(), currentPos.getCol()+1) != null) {
                 if (env.getTile(currentPos.getRow(), currentPos.getCol()+1).isGoal == true) {
                     goalForward = 1;
                 }
             }
-            // checking for dirt behind
+            // checking for pony behind
             if (env.getTile(currentPos.getRow(), currentPos.getCol()-1) != null) {
                 if (env.getTile(currentPos.getRow(), currentPos.getCol()-1).isGoal == true) {
                     goalBehind = 1;
                 }
             }
-            // checking for dirt left
+            // checking for pony left
             if (env.getTile(currentPos.getRow()+1, currentPos.getCol()) != null) {
                 if (env.getTile(currentPos.getRow()+1, currentPos.getCol()).isGoal == true) {
                     goalLeft = 1;
                 }
             }
-            // checking for dirt right
+            // checking for pony right
             if (env.getTile(currentPos.getRow()-1, currentPos.getCol()) != null) {
                 if (env.getTile(currentPos.getRow()-1, currentPos.getCol()).isGoal == true) {
                     goalRight = 1;
                 }
             }
         } else if (heading == "WEST") {
-            // checking for dirt ahead
+            // checking for pony ahead
             if (env.getTile(currentPos.getRow(), currentPos.getCol()-1) != null) {
                 if (env.getTile(currentPos.getRow(), currentPos.getCol()-1).isGoal == true) {
                     goalForward = 1;
                 }
             }
-            // checking for dirt behind
+            // checking for pony behind
             if (env.getTile(currentPos.getRow(), currentPos.getCol()+1) != null) {
                 if (env.getTile(currentPos.getRow(), currentPos.getCol()+1).isGoal == true) {
                     goalBehind = 1;
                 }
             }
-            // checking for dirt left
+            // checking for pony left
             if (env.getTile(currentPos.getRow()-1, currentPos.getCol()) != null) {
                 if (env.getTile(currentPos.getRow()-1, currentPos.getCol()).isGoal == true) {
                     goalLeft = 1;
                 }
             }
-            // checking for dirt right
+            // checking for pony right
             if (env.getTile(currentPos.getRow()+1, currentPos.getCol()) != null) {
                 if (env.getTile(currentPos.getRow()+1, currentPos.getCol()).isGoal == true) {
                     goalRight = 1;
@@ -245,7 +245,7 @@ public class PerceptVector {
 
     // Convert the vector to a string value for printing
     public String toString() {
-        return "<"+touchSensorPushed+", "+dirtUnder+", "+dirtForward+", "+dirtBehind+", "+dirtLeft+", "+dirtRight+", "+goalUnder+", "+goalForward+", "+goalBehind+", "+goalLeft+", "+goalRight+">";
+        return "<"+touchSensorPushed+", "+ponyUnder+", "+ponyForward+", "+ponyBehind+", "+ponyLeft+", "+ponyRight+", "+goalUnder+", "+goalForward+", "+goalBehind+", "+goalLeft+", "+goalRight+">";
     }
 
 }

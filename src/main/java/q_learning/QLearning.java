@@ -78,7 +78,7 @@ public class QLearning {
                 drawMiddleWall(theBoard);
             }
 
-            // Go to the next line to print dirt, furniture, goal, home, or agent
+            // Go to the next line to print pony, furniture, goal, home, or agent
             System.out.println();
         }
     }
@@ -147,7 +147,7 @@ public class QLearning {
             } else if (moveStr == "TURN LEFT") {
                 env.turnAgentLeft();
             } else if (moveStr == "VACUUM") {
-                env.removeDirt(env.getAgentTile());
+                env.removePony(env.getAgentTile());
                 overallScore += 100;
             }
 

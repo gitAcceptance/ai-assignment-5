@@ -24,10 +24,12 @@ public class Environment {
         this.heading = "NORTH";
         roomSize = integers.get(0); // 5
         int PIECES_OF_FURNITURE = integers.get(1); // 2 
-        int PIECES_OF_DIRT = integers.get(2); // 2
+        int NUMBER_OF_PONIES = integers.get(2); // 2
+
+        System.out.println("Line 1 Parsing: N value (room size) " + roomSize + ", Number of trolls (1-3): " + PIECES_OF_FURNITURE + ", Number of ponies (1-15): " + NUMBER_OF_PONIES);
 
         int furnitureCount = 0;
-        int dirtCount = 0;
+        int ponyCount = 0;
         int goalCount = 0;
 
         this.map = new ArrayList<Tile>();
@@ -43,19 +45,29 @@ public class Environment {
         for (int i = 3; i < integers.size(); i+=2) {
             if(1 != goalCount) {
                 Tile t = this.getTile(integers.get(i+1), integers.get(i));
+                System.out.println("Line 2 parsing: Escape locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
                 t.setGoal(true);
                 goalCount++;
             }
+
+            // This needs to turn into pony locations
+            else if (NUMBER_OF_PONIES != ponyCount){
+                Tile t = this.getTile(integers.get(i+1), integers.get(i));
+                System.out.println("Line 4 parsing: Obstruction locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
+                t.setPony(true);
+                ponyCount++;
+            }
+
+            // This needs to turn into obstructons
             else if (PIECES_OF_FURNITURE != furnitureCount) {
                 Tile t = this.getTile(integers.get(i+1), integers.get(i));
+                System.out.println("Line 3 parsing: Pony locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
                 t.setFurniture(true);
                 furnitureCount++;
             }
-            else if (PIECES_OF_DIRT != dirtCount){
-                Tile t = this.getTile(integers.get(i+1), integers.get(i));
-                t.setDirt(true);
-                dirtCount++;
-            }
+
+            // ELSE IF(NUMBER OF TROLLS != trollCount)
+                // Do the same stuff as above
             else {
                 System.out.print("Nothing added to tile.");
             }
@@ -72,7 +84,7 @@ public class Environment {
         String[][] theBoard = new String[roomSize][roomSize];
 
         final String theAgent = "o";
-        final String theDirt = "#";
+        final String thePony = "P";
         final String theFurniture = "X";
         final String theHome = "H";
         final String theGoal = "$";
@@ -99,8 +111,8 @@ public class Environment {
             else if (t.getFurniture()) {
                 theBoard[t.getRow()][t.getCol()] = theFurniture;
             }
-            else if (t.getDirt()) {
-                theBoard[t.getRow()][t.getCol()] = theDirt;
+            else if (t.getPony()) {
+                theBoard[t.getRow()][t.getCol()] = thePony;
             }
             else if (t.getGoal()) {
                 theBoard[t.getRow()][t.getCol()] = theGoal;
@@ -203,9 +215,9 @@ public class Environment {
         }
     }
 
-    // Remove dirt from the board
-    public void removeDirt(Tile tile) {
-        tile.setDirt(false);
+    // Remove pony from the board
+    public void removePony(Tile tile) {
+        tile.setPony(false);
     }
 
     // Get the agents heading

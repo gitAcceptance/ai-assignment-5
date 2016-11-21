@@ -15,7 +15,7 @@ public class Tile {
     public int row;
     public int col;
     public boolean hasFurniture = false;
-    public boolean hasDirt = false;
+    public boolean hasPony = false;
     public boolean isGoal = false;
     public boolean isHome = false;
     public boolean hasAgent = false;
@@ -57,18 +57,18 @@ public class Tile {
         return hasFurniture;
     }
 
-    // Parameter: tileHasFurniture - t/f for determining if dirt has furniture on it         
+    // Parameter: tileHasPony - t/f for determining if tile has pony on it         
     // Precondition: N/A
     // Returns: N/A
-    public void setDirt(boolean tileHasDirt) {
-        hasDirt = tileHasDirt;
+    public void setPony(boolean tileHasPony) {
+        hasPony = tileHasPony;
     }
 
     // Parameter: N/A             
     // Precondition: N/A
-    // Returns: the boolean value of the dirt
-    public boolean getDirt() {
-        return hasDirt;
+    // Returns: the boolean value of the pony
+    public boolean getPony() {
+        return hasPony;
     }
 
     // Parameter: tileHasFurniture - t/f for determining if tile is the goal      
