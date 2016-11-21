@@ -19,6 +19,9 @@ public class Tile {
     public boolean isGoal = false;
     public boolean isHome = false;
     public boolean hasAgent = false;
+    public boolean hasVisited = false;
+
+    
 
     // Parameter: row - the row number of the grid
     //            column - the column number of the grid              
@@ -70,6 +73,16 @@ public class Tile {
     public boolean getPony() {
         return hasPony;
     }
+    
+    public boolean hasVisited() {
+        return hasVisited;
+    }
+
+    public void setHasVisited() {
+        this.hasVisited = true;
+    }
+    
+    
 
     // Parameter: tileHasFurniture - t/f for determining if tile is the goal      
     // Precondition: N/A
