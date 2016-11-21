@@ -25,7 +25,7 @@ public class Environment {
         roomSize = integers.get(0); // 5
         int PIECES_OF_FURNITURE = integers.get(1); // 2 
         int NUMBER_OF_PONIES = integers.get(2); // 2
-        // int NUMBER_OF_TROLLS = integers.get(1);
+        int NUMBER_OF_TROLLS = integers.get(3);
 
         // TODO - Do anything with error checking?
         // TODO - Change to number of trolls
@@ -54,7 +54,7 @@ public class Environment {
         }
 
         // now we need to put stuff in that room
-        for (int i = 3; i < integers.size(); i+=2) {
+        for (int i = 4; i < integers.size(); i+=2) {
             if(1 != goalCount) {
                 Tile t = this.getTile(integers.get(i+1), integers.get(i));
                 System.out.println("Line 2 parsing: Escape locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
@@ -84,12 +84,12 @@ public class Environment {
                 }
             }
 
-            // else if(NUMBER_OF_TROLLS != trollCount) {
-            //     Tile t = this.getTile(integers.get(i+1), integers.get(i));
-            //     System.out.println("Line 5 parsing: Troll locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
-            //     t.setTroll(true);
-            //     trollCount++;
-            // }
+            else if(NUMBER_OF_TROLLS != trollCount) {
+                Tile t = this.getTile(integers.get(i+1), integers.get(i));
+                System.out.println("Line 5 parsing: Troll locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
+                t.setTroll(true);
+                trollCount++;
+            }
 
             else {
                 System.out.print("Nothing added to tile.");
@@ -111,6 +111,7 @@ public class Environment {
         final String theFurniture = "X";
         final String theHome = "H";
         final String theGoal = "E";
+        final String theTroll = "T";
 
         for (Tile t : this.map) {
 
@@ -139,6 +140,9 @@ public class Environment {
             }
             else if (t.getGoal()) {
                 theBoard[t.getRow()][t.getCol()] = theGoal;
+            }
+            else if (t.getTroll()) {
+                theBoard[t.getRow()][t.getCol()] = theTroll;
             }
             else {
                 theBoard[t.getRow()][t.getCol()] = " ";
