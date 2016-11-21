@@ -14,29 +14,6 @@ import java.util.*;
 
 public class QLearning {
 
-    // Read the input file in, add each integer to an arraylist, and return the arraylist
-    public ArrayList<Integer> readInputFile(String filename) {
-        ArrayList<Integer> integers = new ArrayList<Integer>();
-        try {
-
-            InputStream resourceStream = QLearning.class.getResourceAsStream("/" + filename);
-
-            Scanner fileScanner = new Scanner(resourceStream);
-
-
-            // This used to be the scanner. Let's find out is the above code works.
-            // Scanner fileScanner = new Scanner(new File(filename));
-            while (fileScanner.hasNextInt()) {
-               integers.add(fileScanner.nextInt());
-            }
-        }
-        catch(Exception e) {
-            System.out.print(filename + " is not found");
-            e.printStackTrace();
-        }
-        return integers;
-    }
-
     // Draw ASCII board state 
     public void drawBoardState(String[][] theBoard, PrintWriter pw) {
 
@@ -122,8 +99,6 @@ public class QLearning {
     // Run the instance of ReflexAgent.java
     public void run(String fileName) {
 
-        // TODO: JESSE - Delete this list and function when parased properly. Handle in environment instead.
-        List<Integer> integers = readInputFile(fileName);
         PerceptVector p;
         String moveStr;
         boolean agentOn = true;
@@ -133,7 +108,7 @@ public class QLearning {
         int overallScore = 0;
 
         // TODO: JESSE - Remove integers when ready
-        Environment env = new Environment(integers, fileName);
+        Environment env = new Environment(fileName);
 
         try {
             writer = new PrintWriter("prog1_log.txt", "UTF-8");
