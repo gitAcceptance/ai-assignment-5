@@ -188,6 +188,7 @@ public class QLearning {
             
             if (env.getAgentTile().hasPony()) {
             	overallScore += 10;
+            	env.getAgentTile().setPony(false);
             }
             
             if (env.getAgentTile().isAtGoal()) {
