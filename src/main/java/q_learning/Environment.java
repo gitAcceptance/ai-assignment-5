@@ -25,7 +25,10 @@ public class Environment {
         roomSize = integers.get(0); // 5
         int PIECES_OF_FURNITURE = integers.get(1); // 2 
         int NUMBER_OF_PONIES = integers.get(2); // 2
+        // int NUMBER_OF_TROLLS = integers.get(1);
 
+        // TODO - Do anything with error checking?
+        // TODO - Change to number of trolls
         if(!(PIECES_OF_FURNITURE >= 1 && PIECES_OF_FURNITURE <= 3)) {
             System.err.println("Pieces of furniture is not between 1 and 3!");
         }
@@ -38,7 +41,7 @@ public class Environment {
 
         int goalCount = 0;
         int ponyCount = 0;
-        int furnitureCount = 0;
+        int furnitureCount = 0; // TODO this will go away
         int trollCount = 0;
 
         this.map = new ArrayList<Tile>();
@@ -59,7 +62,7 @@ public class Environment {
                 goalCount++;
             }
 
-            // This needs to turn into pony locations
+            // Place ponies on the tiles
             else if (NUMBER_OF_PONIES != ponyCount){
                 Tile t = this.getTile(integers.get(i+1), integers.get(i));
                 System.out.println("Line 3 parsing: Pony locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
@@ -67,16 +70,27 @@ public class Environment {
                 ponyCount++;
             }
 
-            // This needs to turn into obstructons
+            // This needs to turn into obstructons, 
+            // TODO: Parse this differently than original, we wont have the pieces of furniture variable delcared
             else if (PIECES_OF_FURNITURE != furnitureCount) {
-                Tile t = this.getTile(integers.get(i+1), integers.get(i));
-                System.out.println("Line 4 parsing: Obstruction locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
-                t.setFurniture(true);
-                furnitureCount++;
+                if(integers.get(i+1) == -1 && integers.get(i) == -1) {
+                    System.out.println("No obstructions!");
+                }
+                else {
+                    Tile t = this.getTile(integers.get(i+1), integers.get(i));
+                    System.out.println("Line 4 parsing: Obstruction locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
+                    t.setFurniture(true);
+                    furnitureCount++;
+                }
             }
 
-            // ELSE IF(NUMBER OF TROLLS != trollCount)
-                // Do the same stuff as above
+            // else if(NUMBER_OF_TROLLS != trollCount) {
+            //     Tile t = this.getTile(integers.get(i+1), integers.get(i));
+            //     System.out.println("Line 5 parsing: Troll locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
+            //     t.setTroll(true);
+            //     trollCount++;
+            // }
+
             else {
                 System.out.print("Nothing added to tile.");
             }
@@ -168,6 +182,7 @@ public class Environment {
         } else {
             this.getAgentTile().hasAgent = false;
             this.getTile(row, col).hasAgent = true;
+            // TODO: Place a X on the one just travelled on, set isTravelled to true in tile
             return true;
         }
     }

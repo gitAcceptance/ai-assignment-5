@@ -19,6 +19,7 @@ public class Tile {
     public boolean isGoal = false;
     public boolean isHome = false;
     public boolean hasAgent = false;
+    public boolean hasTroll = false;
 
     // Parameter: row - the row number of the grid
     //            column - the column number of the grid              
@@ -69,6 +70,14 @@ public class Tile {
     // Returns: the boolean value of the pony
     public boolean getPony() {
         return hasPony;
+    }
+
+    public void setTroll(boolean tileHasTroll) {
+        hasTroll = tileHasTroll;
+    }
+
+    public boolean getTroll() {
+        return hasTroll;
     }
 
     // Parameter: tileHasFurniture - t/f for determining if tile is the goal      
