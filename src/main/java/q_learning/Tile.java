@@ -20,6 +20,7 @@ public class Tile {
     public boolean isHome = false;
     public boolean hasAgent = false;
     public boolean hasTroll = false;
+    public boolean hasVisited = false;
 
     // Parameter: row - the row number of the grid
     //            column - the column number of the grid              
@@ -71,6 +72,16 @@ public class Tile {
     public boolean getPony() {
         return hasPony;
     }
+    
+    public boolean hasVisited() {
+        return hasVisited;
+    }
+
+    public void setHasVisited() {
+        this.hasVisited = true;
+    }
+    
+    
 
     public void setTroll(boolean tileHasTroll) {
         hasTroll = tileHasTroll;
