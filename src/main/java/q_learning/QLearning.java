@@ -110,6 +110,7 @@ public class QLearning {
     // Run the instance of ReflexAgent.java
     public void run(String fileName) {
 
+        // TODO: JESSE - Delete this list and function. Handle in environment instead.
         List<Integer> integers = readInputFile(fileName);
         PerceptVector p;
         String moveStr;
@@ -119,6 +120,7 @@ public class QLearning {
         int time = 0;
         int overallScore = 0;
 
+        // TODO: JESSE - Pass envrionemtna a file in the constructor
         Environment env = new Environment(integers);
 
         try {

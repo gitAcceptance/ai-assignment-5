@@ -24,7 +24,11 @@ public class Environment {
     int roomSize;           // constant for the room size
 
     // Create the initial envionment based on the input file
+      // TODO - JESSE: Change to take in a file
     public Environment(List<Integer> integers) {
+
+        // TODO - JESSE: Create scanner and split each string on new line, or create multiple scanners on each line
+
         this.rand = new Random();
         this.heading = "NORTH";
         roomSize = integers.get(0); // 5
