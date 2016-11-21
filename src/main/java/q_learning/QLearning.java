@@ -107,7 +107,6 @@ public class QLearning {
         int time = 0;
         int overallScore = 0;
 
-        // TODO: JESSE - Remove integers when ready
         Environment env = new Environment(fileName);
 
         try {
