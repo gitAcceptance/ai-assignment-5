@@ -183,6 +183,8 @@ public class QLearning {
             
             if (env.getAgentTile().hasTroll()) {
             	overallScore -= 15;
+            	System.out.println("The burglar has been eaten.");
+            	break;
             	// TODO end the trial after he gets killed by the troll
             }
             
