@@ -19,16 +19,13 @@ public class Agent {
     public static String goRight = "TURN RIGHT";
     public static String turnOff = "TURN OFF";
     
-    private Tile currentLocation;
-    private ArrayList<Tile> visitedTiles;
+    
     private Random rand;
     
-    public Agent(Tile t) {
+    public Agent() {
         this.rand = new Random();
         
-        this.currentLocation = t;
-        visitedTiles = new ArrayList<Tile>();
-        visitedTiles.add(t);
+        
     }
 
     /**
@@ -48,8 +45,8 @@ public class Agent {
     }
     
     public void move(Tile newLocation) {
-        this.currentLocation = newLocation;
-        this.visitedTiles.add(newLocation);
+        //this.currentLocation = newLocation;
+        //this.visitedTiles.add(newLocation);
         
         // TODO I think this needs error checking? Unless we do the checking in the loop driving Q Learning.
     }
@@ -102,9 +99,7 @@ public class Agent {
         return goForward;
     }
 
-    public Tile getCurrentLocation() {
-        return currentLocation;
-    }
+    
 
     
 

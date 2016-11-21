@@ -17,10 +17,18 @@ public class Tile {
     public boolean hasFurniture = false;
     public boolean hasPony = false;
     public boolean isGoal = false;
-    public boolean isHome = false;
     public boolean hasAgent = false;
     public boolean hasTroll = false;
     public boolean hasVisited = false;
+    public boolean hasObstruction = false;
+
+    public boolean hasObstruction() {
+        return hasObstruction;
+    }
+
+    public void setHasObstruction(boolean hasObstruction) {
+        this.hasObstruction = hasObstruction;
+    }
 
     // Parameter: row - the row number of the grid
     //            column - the column number of the grid              
@@ -55,7 +63,7 @@ public class Tile {
     // Parameter: N/A             
     // Precondition: N/A
     // Returns: the boolean value of the furniture
-    public boolean getFurniture() {
+    public boolean hasFurniture() {
         return hasFurniture;
     }
 
@@ -69,7 +77,7 @@ public class Tile {
     // Parameter: N/A             
     // Precondition: N/A
     // Returns: the boolean value of the pony
-    public boolean getPony() {
+    public boolean hasPony() {
         return hasPony;
     }
     
@@ -87,7 +95,7 @@ public class Tile {
         hasTroll = tileHasTroll;
     }
 
-    public boolean getTroll() {
+    public boolean hasTroll() {
         return hasTroll;
     }
 
@@ -101,7 +109,7 @@ public class Tile {
     // Parameter: N/A             
     // Precondition: N/A
     // Returns: the boolean value of the goal
-    public boolean getGoal() {
+    public boolean isAtGoal() {
         return isGoal;
     }
 }

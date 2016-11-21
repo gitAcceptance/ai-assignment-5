@@ -11,16 +11,21 @@ package q_learning;
 
 import java.util.*;
 
+import sun.management.resources.agent;
+
 public class Environment {
     
     //class constants and variables
+    Random rand;
     ArrayList<Tile> map;    // arraylist of tiles
+    
     String heading;         // orientation of agent
     boolean sensorPressed;  // determines if sensor is pressed
     int roomSize;           // constant for the room size
 
     // Create the initial envionment based on the input file
     public Environment(List<Integer> integers) {
+        this.rand = new Random();
         this.heading = "NORTH";
         roomSize = integers.get(0); // 5
         int PIECES_OF_FURNITURE = integers.get(1); // 2 
@@ -97,8 +102,12 @@ public class Environment {
         }
 
         // now we set the home and place the robot in the room at the home location.
-        this.getTile(0, 0).isHome = true;
-        this.getTile(0, 0).hasAgent = true;
+        Tile agentHome = null;
+        do {
+            agentHome = this.getTile(rand.nextInt(roomSize), rand.nextInt(roomSize));
+        } while (!(agentHome.hasPony() == false && agentHome.hasTroll() == false && agentHome.hasFurniture() == false));
+        agentHome.hasAgent = true;
+        agentHome.setHasVisited();
     }
 
     // get the current state of the board in an easily printable form
@@ -109,40 +118,28 @@ public class Environment {
         final String theAgent = "o";
         final String thePony = "P";
         final String theFurniture = "X";
-        final String theHome = "H";
         final String theGoal = "E";
         final String theTroll = "T";
+        final String travelled = "$";
 
         for (Tile t : this.map) {
 
             if(t.hasAgent) {
-                if (this.heading == "NORTH") {
-                    theBoard[t.getRow()][t.getCol()] = "^";
-                } else if (this.heading == "SOUTH") {
-                    theBoard[t.getRow()][t.getCol()] = "v";
-                } else if (this.heading == "EAST") {
-                    theBoard[t.getRow()][t.getCol()] = ">";
-                } else if (this.heading == "WEST") {
-                    theBoard[t.getRow()][t.getCol()] = "<";
-                } else {
-                    theBoard[t.getRow()][t.getCol()] = "o";
-                }
-                
+                theBoard[t.getRow()][t.getCol()] = "o";
             }
-            else if(t.isHome) {
-                theBoard[t.getRow()][t.getCol()] = theHome;
-            }
-            else if (t.getFurniture()) {
+            else if (t.hasFurniture()) {
                 theBoard[t.getRow()][t.getCol()] = theFurniture;
             }
-            else if (t.getPony()) {
+            else if (t.hasPony()) {
                 theBoard[t.getRow()][t.getCol()] = thePony;
             }
-            else if (t.getGoal()) {
+            else if (t.isAtGoal()) {
                 theBoard[t.getRow()][t.getCol()] = theGoal;
             }
-            else if (t.getTroll()) {
+            else if (t.hasTroll()) {
                 theBoard[t.getRow()][t.getCol()] = theTroll;
+            } else if (t.hasVisited()) {
+                theBoard[t.getRow()][t.getCol()] = travelled;
             }
             else {
                 theBoard[t.getRow()][t.getCol()] = " ";
@@ -186,62 +183,14 @@ public class Environment {
         } else {
             this.getAgentTile().hasAgent = false;
             this.getTile(row, col).hasAgent = true;
-            // TODO: Place a X on the one just travelled on, set isTravelled to true in tile
+            
+            this.getTile(row, col).setHasVisited();
+            
             return true;
         }
     }
 
-    // Move the agent forward on the board depending on the heading
-    public void moveAgentForward() {
-        this.sensorPressed = false;
-        if (this.heading == "NORTH") {
-            boolean result = this.moveAgent(this.getAgentTile().getRow()+1, this.getAgentTile().getCol());
-            if (result == false) {
-                this.sensorPressed = true;
-            }
-        } else if (this.heading == "SOUTH") {
-            boolean result = this.moveAgent(this.getAgentTile().getRow()-1, this.getAgentTile().getCol());
-            if (result == false) {
-                this.sensorPressed = true;
-            }
-        } else if (this.heading == "EAST") {
-            boolean result = this.moveAgent(this.getAgentTile().getRow(), this.getAgentTile().getCol()+1);
-            if (result == false) {
-                this.sensorPressed = true;
-            }
-        } else if (this.heading == "WEST") {
-            boolean result = this.moveAgent(this.getAgentTile().getRow(), this.getAgentTile().getCol()-1);
-            if (result == false) {
-                this.sensorPressed = true;
-            }
-        }
-    }
-
-    // Change the orientation of the agent
-    public void turnAgentRight() {
-        if (heading == "NORTH") {
-            heading = "EAST";
-        } else if (heading == "SOUTH") {
-            heading = "WEST";
-        } else if (heading == "EAST") {
-            heading = "SOUTH";
-        } else if (heading == "WEST") {
-            heading = "NORTH";
-        }
-    }
-
-    // Change the orientation of the agent
-    public void turnAgentLeft() {
-        if (heading == "NORTH") {
-            heading = "WEST";
-        } else if (heading == "SOUTH") {
-            heading = "EAST";
-        } else if (heading == "EAST") {
-            heading = "NORTH";
-        } else if (heading == "WEST") {
-            heading = "SOUTH";
-        }
-    }
+    
 
     // Remove pony from the board
     public void removePony(Tile tile) {

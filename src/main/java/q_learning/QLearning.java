@@ -137,19 +137,39 @@ public class QLearning {
             p = env.getPerceptVector(); 
 
             // Get action from the reflex agent
-            moveStr = Agent.getAction(p);
-
-            if (moveStr == "TURN OFF") agentOn = false;
-            if (moveStr == "MOVE FORWARD") {
-                env.moveAgentForward();
-            } else if (moveStr == "TURN RIGHT") {
-                env.turnAgentRight();
-            } else if (moveStr == "TURN LEFT") {
-                env.turnAgentLeft();
-            } else if (moveStr == "VACUUM") {
-                env.removePony(env.getAgentTile());
-                overallScore += 100;
+            Agent a = new Agent();
+            //moveStr = Agent.getAction(p);
+            int choice = a.getAction();
+            
+            /**  
+             * Neighbor tile labels are:
+             * 0 1 2
+             * 3 A 4
+             * 5 6 7
+            */
+            
+            
+            if (choice == 0) {
+                env.moveAgent(env.getAgentTile().getRow() - 1, env.getAgentTile().getCol() - 1);
+            } else if (choice == 1) {
+                env.moveAgent(env.getAgentTile().getRow() - 1, env.getAgentTile().getCol());
+            } else if (choice == 2) {
+                env.moveAgent(env.getAgentTile().getRow() - 1, env.getAgentTile().getCol() + 1);
+            } else if (choice == 3) {
+                env.moveAgent(env.getAgentTile().getRow(), env.getAgentTile().getCol() - 1);
+            } else if (choice == 4) {
+                env.moveAgent(env.getAgentTile().getRow(), env.getAgentTile().getCol() + 1);
+            } else if (choice == 5) {
+                env.moveAgent(env.getAgentTile().getRow() + 1, env.getAgentTile().getCol() - 1);
+            } else if (choice == 6) {
+                env.moveAgent(env.getAgentTile().getRow() + 1, env.getAgentTile().getCol());
+            } else if (choice == 7) {
+                env.moveAgent(env.getAgentTile().getRow() + 1, env.getAgentTile().getCol() + 1);
             }
+            
+            
+
+            
 
             // Display the ASCII state of the board
             drawBoardState(env.getBoard());
@@ -161,31 +181,19 @@ public class QLearning {
             time++;
 
             // Print out underneath console
-            System.out.println("Last action: " + moveStr);
+            //System.out.println("Last action: " + moveStr);
             System.out.println("Score: " + overallScore);
-            System.out.println("Vector: " + p.toString());
+            //System.out.println("Vector: " + p.toString());
 
             int lengthOfInt = String.valueOf(time).length();
             int lengthOfScore = String.valueOf(overallScore).length();
-            int lengthOfMove = moveStr.length();
+            //int lengthOfMove = moveStr.length();
+            
+            
+            if (env.getAgentTile().isAtGoal()) {
+                agentOn = false;
+            }
 
-            if(lengthOfInt == 1) {
-                if(lengthOfMove > 5) {
-                    writer.printf("%s    %36s    %10s    %7s\n", time, p.toString(), moveStr, overallScore);
-                }
-                else {
-                    writer.printf("%s    %36s    %10s    %5s\n", time, p.toString(), moveStr, overallScore);
-                }
-            }
-            else if(lengthOfInt == 2) {
-                writer.printf("%s    %35s    %-10s    %5s\n", time, p.toString(), moveStr, overallScore);
-            }
-            else if(lengthOfInt == 3) {
-                writer.printf("%s    %34s    %-10s    %5s\n", time, p.toString(), moveStr, overallScore);
-            }
-            else if(lengthOfInt == 4) {
-                writer.printf("%s    %33s    %-10s    %5s\n", time, p.toString(), moveStr, overallScore);
-            }
         }
         writer.close();
     }
