@@ -38,17 +38,18 @@ public class QLearning {
     }
 
     // Draw ASCII board state 
-    public void drawBoardState(String[][] theBoard) {
+    public void drawBoardState(String[][] theBoard, PrintWriter pw) {
 
         for (int row = theBoard.length - 1; row >= 0; row--) {
             
             // Print the top wall
             if(row == theBoard.length - 1) {
-                drawTopWall(theBoard);
+                drawTopWall(theBoard, pw);
             }
 
             // Print the left wall
             System.out.print("|");
+            pw.print("|");
 
             for (int column = 0; column < theBoard.length; column++) {
 
@@ -56,54 +57,65 @@ public class QLearning {
                 if(column == theBoard.length - 1) {
                     // TODO make the rows display properly (4,0) becomes (0,0)
                     System.out.print(theBoard[row][column]);
+                    pw.print(theBoard[row][column]);
                 }
                 else {
                     System.out.print(theBoard[row][column] + " ");
+                    pw.print(theBoard[row][column] + " ");
                 }
             }
 
             // Print the right wall
             System.out.print("|");
+            pw.print("|");
 
             // Go to the next line to print either the bottom or middle wall
             System.out.println();
+            pw.println();
 
             // Print the bottom wall
             if(row == 0) {
-                drawBottomWall(theBoard);
+                drawBottomWall(theBoard, pw);
             }
 
             // Print the middle wall
             else {
-                drawMiddleWall(theBoard);
+                drawMiddleWall(theBoard, pw);
             }
 
             // Go to the next line to print pony, furniture, goal, home, or agent
             System.out.println();
+            pw.println();
         }
     }
 
     // Draw the top wall
-    public static void drawTopWall(String[][] theBoard) {
+    public static void drawTopWall(String[][] theBoard, PrintWriter pw) {
         for (int wall = 0; wall < theBoard.length; wall++) {
             System.out.print("+-");
+            pw.print("+-");
         }
         System.out.print("+");
+        pw.print("+");
         System.out.println();
+        pw.println();
     }
 
     // Draw the bottom wall
-    public static void drawBottomWall(String[][] theBoard) {
+    public static void drawBottomWall(String[][] theBoard, PrintWriter pw) {
         for (int wall = 0; wall < theBoard.length; wall++) {
             System.out.print("+-");
+            pw.print("+-");
         }
         System.out.print("+");
+        pw.print("+");
     }
 
     // Draw the middle wall
-    public static void drawMiddleWall(String[][] theBoard) {
+    public static void drawMiddleWall(String[][] theBoard, PrintWriter pw) {
         for (int column = 0; column < theBoard.length + 1; column++) {
             System.out.print("+ ");
+            pw.print("+ ");
         }
     }
 
@@ -125,13 +137,18 @@ public class QLearning {
 
         try {
             writer = new PrintWriter("prog1_log.txt", "UTF-8");
-            writer.println("Time    <B Du Df Db Dr Dl Gu Gf Gb Gr Gl>       Action     Score");
-            writer.println("-----------------------------------------       ------     -----");          
+            //writer.println("Time    <B Du Df Db Dr Dl Gu Gf Gb Gr Gl>       Action     Score");
+            //writer.println("-----------------------------------------       ------     -----");          
         }
         catch (Exception e) {
             System.out.print("prog1_log.txt not created.");
+            e.printStackTrace();
+            System.exit(1);
         }
 
+        // Display the ASCII state of the board
+        drawBoardState(env.getBoard(), writer);
+        
         // While (The agent has not turned off)
         while(agentOn) {
 
@@ -143,14 +160,12 @@ public class QLearning {
             //moveStr = Agent.getAction(p);
             int choice = a.getAction();
             
-            /**  
+            /*  
              * Neighbor tile labels are:
              * 0 1 2
              * 3 A 4
              * 5 6 7
-            */
-            
-            
+             */
             if (choice == 0) {
                 env.moveAgent(env.getAgentTile().getRow() - 1, env.getAgentTile().getCol() - 1);
             } else if (choice == 1) {
@@ -174,30 +189,51 @@ public class QLearning {
             
 
             // Display the ASCII state of the board
-            drawBoardState(env.getBoard());
+            //drawBoardState(env.getBoard());
 
             // Subtract one from the score
-            overallScore -= 1;
+            overallScore += 1;
 
             // Add one to the time
             time++;
 
             // Print out underneath console
             //System.out.println("Last action: " + moveStr);
-            System.out.println("Score: " + overallScore);
+            //System.out.println("Score: " + overallScore);
             //System.out.println("Vector: " + p.toString());
 
             int lengthOfInt = String.valueOf(time).length();
             int lengthOfScore = String.valueOf(overallScore).length();
             //int lengthOfMove = moveStr.length();
             
-            
             if (env.getAgentTile().isAtGoal()) {
                 agentOn = false;
             }
-
         }
+        
+        // TODO finish calculating score
+        
+        
+        
+        // Display the ASCII state of the board
+        System.out.println();
+        System.out.println("Score: " + overallScore);
+        writer.println();
+        writer.println("Score: " + overallScore);
+        drawBoardState(env.getBoard(), writer);
         writer.close();
+    }
+    
+    public static int numberOfTrolls(Environment env) {
+    	int count = 0;
+    	for (int row = 0; row < env.roomSize; row++) {
+    		for (int col = 0; col < env.roomSize; col++) {
+    			if (env.getTile(row, col).hasTroll()) {
+    				count++;
+    			}
+    		}
+    	}
+    	return count;
     }
 
     public static void main(String[] args) {
