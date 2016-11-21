@@ -9,6 +9,7 @@
 
 package q_learning;
 
+import java.io.*;
 import java.util.*;
 
 import sun.management.resources.agent;
@@ -24,94 +25,119 @@ public class Environment {
     int roomSize;           // constant for the room size
 
     // Create the initial envionment based on the input file
-      // TODO - JESSE: Change to take in a file
-    public Environment(List<Integer> integers) {
+    // TODO - JESSE: Remove integer when function below works
+    public Environment(List<Integer> integers, String fileName) {
 
         // TODO - JESSE: Create scanner and split each string on new line, or create multiple scanners on each line
+        boolean changeToFile = false;
 
-        this.rand = new Random();
-        this.heading = "NORTH";
-        roomSize = integers.get(0); // 5
-        int PIECES_OF_FURNITURE = integers.get(1); // 2 
-        int NUMBER_OF_PONIES = integers.get(2); // 2
-        int NUMBER_OF_TROLLS = integers.get(3);
+        if(changeToFile == true) {
+            try {
 
-        // TODO - Do anything with error checking?
-        // TODO - Change to number of trolls
-        if(!(PIECES_OF_FURNITURE >= 1 && PIECES_OF_FURNITURE <= 3)) {
-            System.err.println("Pieces of furniture is not between 1 and 3!");
-        }
+                InputStream resourceStream = QLearning.class.getResourceAsStream("/" + fileName);
 
-        if(!(NUMBER_OF_PONIES >= 1 && NUMBER_OF_PONIES <= 15)) {
-            System.err.println("Number of ponies is not between 1 and 15!");
-        }
+                Scanner fileScanner = new Scanner(resourceStream);
 
-        System.out.println("Line 1 Parsing: N value (room size) " + roomSize + ", Number of trolls (1-3): " + PIECES_OF_FURNITURE + ", Number of ponies (1-15): " + NUMBER_OF_PONIES);
 
-        int goalCount = 0;
-        int ponyCount = 0;
-        int furnitureCount = 0; // TODO this will go away
-        int trollCount = 0;
-
-        this.map = new ArrayList<Tile>();
-
-        // make a room full of empty floor tiles
-        for (int row = 0; row < roomSize; row++) {
-            for (int col = 0; col < roomSize; col++) {
-                this.map.add(new Tile(row, col));
-            }
-        }
-
-        // now we need to put stuff in that room
-        for (int i = 4; i < integers.size(); i+=2) {
-            if(1 != goalCount) {
-                Tile t = this.getTile(integers.get(i+1), integers.get(i));
-                System.out.println("Line 2 parsing: Escape locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
-                t.setGoal(true);
-                goalCount++;
-            }
-
-            // Place ponies on the tiles
-            else if (NUMBER_OF_PONIES != ponyCount){
-                Tile t = this.getTile(integers.get(i+1), integers.get(i));
-                System.out.println("Line 3 parsing: Pony locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
-                t.setPony(true);
-                ponyCount++;
-            }
-
-            // This needs to turn into obstructons, 
-            // TODO: Parse this differently than original, we wont have the pieces of furniture variable delcared
-            else if (PIECES_OF_FURNITURE != furnitureCount) {
-                if(integers.get(i+1) == -1 && integers.get(i) == -1) {
-                    System.out.println("No obstructions!");
+                // This used to be the scanner. Let's find out is the above code works.
+                // Scanner fileScanner = new Scanner(new File(filename));
+                while (fileScanner.hasNextInt()) {
+                   integers.add(fileScanner.nextInt());
                 }
-                else {
+            }
+
+            catch(Exception e) {
+                System.out.print(fileName + " is not found");
+                e.printStackTrace();
+            }
+        }
+
+
+        else  {
+            this.rand = new Random();
+            this.heading = "NORTH";
+            roomSize = integers.get(0); // 5
+            int PIECES_OF_FURNITURE = integers.get(1); // 2 
+            int NUMBER_OF_PONIES = integers.get(2); // 2
+            int NUMBER_OF_TROLLS = integers.get(3);
+
+            // TODO - Do anything with error checking?
+            // TODO - Change to number of trolls
+            if(!(PIECES_OF_FURNITURE >= 1 && PIECES_OF_FURNITURE <= 3)) {
+                System.err.println("Pieces of furniture is not between 1 and 3!");
+            }
+
+            if(!(NUMBER_OF_PONIES >= 1 && NUMBER_OF_PONIES <= 15)) {
+                System.err.println("Number of ponies is not between 1 and 15!");
+            }
+
+            System.out.println("Line 1 Parsing: N value (room size) " + roomSize + ", Number of trolls (1-3): " + PIECES_OF_FURNITURE + ", Number of ponies (1-15): " + NUMBER_OF_PONIES);
+
+            int goalCount = 0;
+            int ponyCount = 0;
+            int furnitureCount = 0; // TODO this will go away
+            int trollCount = 0;
+
+            this.map = new ArrayList<Tile>();
+
+            // make a room full of empty floor tiles
+            for (int row = 0; row < roomSize; row++) {
+                for (int col = 0; col < roomSize; col++) {
+                    this.map.add(new Tile(row, col));
+                }
+            }
+
+            // now we need to put stuff in that room
+            for (int i = 4; i < integers.size(); i+=2) {
+                if(1 != goalCount) {
                     Tile t = this.getTile(integers.get(i+1), integers.get(i));
-                    System.out.println("Line 4 parsing: Obstruction locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
-                    t.setFurniture(true);
-                    furnitureCount++;
+                    System.out.println("Line 2 parsing: Escape locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
+                    t.setGoal(true);
+                    goalCount++;
+                }
+
+                // Place ponies on the tiles
+                else if (NUMBER_OF_PONIES != ponyCount){
+                    Tile t = this.getTile(integers.get(i+1), integers.get(i));
+                    System.out.println("Line 3 parsing: Pony locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
+                    t.setPony(true);
+                    ponyCount++;
+                }
+
+                // This needs to turn into obstructons, 
+                // TODO: Parse this differently than original, we wont have the pieces of furniture variable delcared
+                else if (PIECES_OF_FURNITURE != furnitureCount) {
+                    if(integers.get(i+1) == -1 && integers.get(i) == -1) {
+                        System.out.println("No obstructions!");
+                    }
+                    else {
+                        Tile t = this.getTile(integers.get(i+1), integers.get(i));
+                        System.out.println("Line 4 parsing: Obstruction locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
+                        t.setFurniture(true);
+                        furnitureCount++;
+                    }
+                }
+
+                else if(NUMBER_OF_TROLLS != trollCount) {
+                    Tile t = this.getTile(integers.get(i+1), integers.get(i));
+                    System.out.println("Line 5 parsing: Troll locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
+                    t.setTroll(true);
+                    trollCount++;
+                }
+
+                else {
+                    System.out.print("Nothing added to tile.");
                 }
             }
 
-            else if(NUMBER_OF_TROLLS != trollCount) {
-                Tile t = this.getTile(integers.get(i+1), integers.get(i));
-                System.out.println("Line 5 parsing: Troll locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
-                t.setTroll(true);
-                trollCount++;
-            }
-
-            else {
-                System.out.print("Nothing added to tile.");
-            }
+            // now we set the home and place the robot in the room at the home location.
+            Tile agentHome = null;
+            do {
+                agentHome = this.getTile(rand.nextInt(roomSize), rand.nextInt(roomSize));
+            } while (!(agentHome.hasPony() == false && agentHome.hasTroll() == false && agentHome.hasFurniture() == false));
+            agentHome.hasAgent = true;
+            agentHome.setHasVisited();
         }
-
-        // now we set the home and place the robot in the room at the home location.
-        Tile agentHome = null;
-        do {
-            agentHome = this.getTile(rand.nextInt(roomSize), rand.nextInt(roomSize));
-        } while (!(agentHome.hasPony() == false && agentHome.hasTroll() == false && agentHome.hasFurniture() == false));
-        agentHome.hasAgent = true;
-        agentHome.setHasVisited();
     }
 
     // get the current state of the board in an easily printable form
