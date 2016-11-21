@@ -111,7 +111,7 @@ public class QLearning {
 
         System.out.println("Agent symbol: " + env.getAgentSymbol());
         System.out.println("Pony symbol: " + env.getPonySymbol());
-        System.out.println("Furniture symbol: " + env.getFurnitureSymbol());
+        System.out.println("Obstruction symbol: " + env.getFurnitureSymbol());
         System.out.println("Goal symbol: " + env.getGoalSymbol());
         System.out.println("Troll symbol: " + env.getTrollSymbol());
         System.out.println("Travelled symbol: " + env.getTravelledSymbol());
