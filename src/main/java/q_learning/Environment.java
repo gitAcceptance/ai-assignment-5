@@ -42,7 +42,7 @@ public class Environment {
             // Scan the first line
             line = fileScanner.nextLine();
             Scanner scan1 = new Scanner(line);
-            if(scan1.hasNextInt()) {
+            while(scan1.hasNextInt()) {
                 // System.out.println("Goal is " + scan1.nextInt());
                 // System.out.println("Number of trolls is " + scan1.nextInt());
                 // System.out.println("Number of ponies is " + scan1.nextInt());
@@ -63,7 +63,7 @@ public class Environment {
             // Scan the second line
             line = fileScanner.nextLine();
             Scanner scan2 = new Scanner(line);
-            if(scan2.hasNextInt()) {
+            while(scan2.hasNextInt()) {
                 // System.out.println("Goal (" + scan2.nextInt() + "), (" + scan2.nextInt() +")");
                 Tile t = this.getTile(scan2.nextInt(), scan2.nextInt());
                 t.setGoal(true);
@@ -72,7 +72,7 @@ public class Environment {
             // Scan the third line
             line = fileScanner.nextLine();
             Scanner scan3 = new Scanner(line);
-            if(scan3.hasNextInt()) {
+            while(scan3.hasNextInt()) {
                 // System.out.println("Pony coordinates");
                 // System.out.println("(" + scan3.nextInt()  + "), (" + scan3.nextInt() + ")");
                 Tile t = this.getTile(scan3.nextInt(), scan3.nextInt());
@@ -83,22 +83,24 @@ public class Environment {
             // Scan the fourth line
             line = fileScanner.nextLine();
             Scanner scan4 = new Scanner(line);
-            if(scan4.hasNextInt()) {
+            while(scan4.hasNextInt()) {
                 // System.out.println("Obstruction coordinates");
-                if(scan4.nextInt() == -1) {
-                    System.out.println("No obstructions");
-                }
-                else {
-                    // System.out.println("(" + scan4.nextInt()  + "), (" + scan4.nextInt() + ")");
-                    Tile t = this.getTile(scan4.nextInt(), scan4.nextInt());
-                    t.setFurniture(true);
-                }
+                // System.out.println("(" + scan4.nextInt()  + "), (" + scan4.nextInt() + ")");
+            
+                    int checkFirstNum = scan4.nextInt();
+                    int checkSecondNum = scan4.nextInt();
+
+
+                    if(!(checkFirstNum == -1 && checkSecondNum == -1)) {
+                        Tile t = this.getTile(scan4.nextInt(), scan4.nextInt());
+                        t.setFurniture(true);
+                    }
             }
 
             // Scan the fifth line
             line = fileScanner.nextLine();
             Scanner scan5 = new Scanner(line);
-            if(scan5.hasNextInt()) {
+            while(scan5.hasNextInt()) {
                 // System.out.println("Troll coordinates");
                 // System.out.println("(" + scan5.nextInt()  + "), (" + scan5.nextInt() + ")");
                 Tile t = this.getTile(scan5.nextInt(), scan5.nextInt());
@@ -151,7 +153,8 @@ public class Environment {
             }
             else if (t.hasTroll()) {
                 theBoard[t.getRow()][t.getCol()] = theTroll;
-            } else if (t.hasVisited()) {
+            } 
+            else if (t.hasVisited()) {
                 theBoard[t.getRow()][t.getCol()] = travelled;
             }
             else {
@@ -162,11 +165,6 @@ public class Environment {
         return theBoard;
     }
 
-
-    // This is how we generate the Percept Vector at each timestep.
-    public PerceptVector getPerceptVector() {
-        return new PerceptVector(this, this.getAgentTile(), heading, sensorPressed);
-    }
 
     // Returns a reference to the tile on the map matching the given params.
     public Tile getTile(int row, int col) {

@@ -126,9 +126,6 @@ public class QLearning {
         // While (The agent has not turned off)
         while(agentOn) {
 
-            // Create a new percept vector
-            p = env.getPerceptVector(); 
-
             // Get action from the reflex agent
             Agent a = new Agent();
             //moveStr = Agent.getAction(p);
