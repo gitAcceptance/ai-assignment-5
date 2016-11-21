@@ -96,10 +96,9 @@ public class QLearning {
         }
     }
 
-    // Run the instance of ReflexAgent.java
+    // Run the instance of QLearning.java
     public void run(String fileName) {
 
-        PerceptVector p;
         String moveStr;
         boolean agentOn = true;
         PrintWriter writer = null;
@@ -204,7 +203,6 @@ public class QLearning {
         drawBoardState(env.getBoard(), writer);
         writer.close();
     }
-    
 
     public static void main(String[] args) {
         QLearning agent = new QLearning();

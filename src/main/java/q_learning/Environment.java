@@ -13,8 +13,6 @@ import java.io.*;
 import java.util.*;
 
 public class Environment {
-    
-    //class constants and variables
     Random rand;
     ArrayList<Tile> map;    // arraylist of tiles
     
@@ -41,9 +39,7 @@ public class Environment {
         try {
 
             InputStream resourceStream = QLearning.class.getResourceAsStream("/" + fileName);
-
             Scanner fileScanner = new Scanner(resourceStream);
-
             String line;
 
             // Scan the first line
@@ -223,8 +219,6 @@ public class Environment {
             return true;
         }
     }
-
-    
 
     // Remove pony from the board
     public void removePony(Tile tile) {
