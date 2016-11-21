@@ -12,8 +12,6 @@ package q_learning;
 import java.io.*;
 import java.util.*;
 
-import sun.management.resources.agent;
-
 public class Environment {
     
     //class constants and variables
@@ -24,27 +22,113 @@ public class Environment {
     boolean sensorPressed;  // determines if sensor is pressed
     int roomSize;           // constant for the room size
 
+    int NUMBER_OF_TROLLS;
+    int NUMBER_OF_PONIES;
+
     // Create the initial envionment based on the input file
     // TODO - JESSE: Remove integer when function below works
     public Environment(List<Integer> integers, String fileName) {
 
         // TODO - JESSE: Create scanner and split each string on new line, or create multiple scanners on each line
-        boolean changeToFile = false;
+        boolean changeToFile = true;
+
+        this.rand = new Random();
+        this.heading = "NORTH";
 
         if(changeToFile == true) {
+           
             try {
 
+                System.out.println("File name is "  + fileName);
                 InputStream resourceStream = QLearning.class.getResourceAsStream("/" + fileName);
 
                 Scanner fileScanner = new Scanner(resourceStream);
 
+                String line;
 
-                // This used to be the scanner. Let's find out is the above code works.
-                // Scanner fileScanner = new Scanner(new File(filename));
-                while (fileScanner.hasNextInt()) {
-                   integers.add(fileScanner.nextInt());
+                // Scan the first line
+                line = fileScanner.nextLine();
+                Scanner scan1 = new Scanner(line);
+                if(scan1.hasNextInt()) {
+                    // System.out.println("Goal is " + scan1.nextInt());
+                    // System.out.println("Number of trolls is " + scan1.nextInt());
+                    // System.out.println("Number of ponies is " + scan1.nextInt());
+                    roomSize = scan1.nextInt(); // 5
+                    NUMBER_OF_TROLLS = scan1.nextInt();
+                    NUMBER_OF_PONIES = scan1.nextInt();
                 }
-            }
+
+
+                System.out.println("ROOM SIZE IS " + roomSize);
+
+                this.map = new ArrayList<Tile>();
+
+                // make a room full of empty floor tiles
+                for (int row = 0; row < roomSize; row++) {
+                    for (int col = 0; col < roomSize; col++) {
+                        this.map.add(new Tile(row, col));
+                    }
+                }
+
+                System.out.println("First line scanned");
+
+                // Scan the second line
+                line = fileScanner.nextLine();
+                Scanner scan2 = new Scanner(line);
+                if(scan2.hasNextInt()) {
+                    // System.out.println("Goal (" + scan2.nextInt() + "), (" + scan2.nextInt() +")");
+                    Tile t = this.getTile(scan2.nextInt(), scan2.nextInt());
+                    t.setGoal(true);
+                }
+
+                // Scan the third line
+                line = fileScanner.nextLine();
+                Scanner scan3 = new Scanner(line);
+                if(scan3.hasNextInt()) {
+                    // System.out.println("Pony coordinates");
+                    // System.out.println("(" + scan3.nextInt()  + "), (" + scan3.nextInt() + ")");
+                    Tile t = this.getTile(scan3.nextInt(), scan3.nextInt());
+                    t.setPony(true);
+
+                }
+
+                // Scan the fourth line
+                line = fileScanner.nextLine();
+                Scanner scan4 = new Scanner(line);
+                if(scan4.hasNextInt()) {
+                    System.out.println("Obstruction coordinates");
+                    if(scan4.nextInt() == -1) {
+                        System.out.println("No obstructions");
+                    }
+                    else {
+                        // System.out.println("(" + scan4.nextInt()  + "), (" + scan4.nextInt() + ")");
+                        Tile t = this.getTile(scan4.nextInt(), scan4.nextInt());
+                        t.setFurniture(true);
+                    }
+                }
+
+                // Scan the fifth line
+                line = fileScanner.nextLine();
+                Scanner scan5 = new Scanner(line);
+                if(scan5.hasNextInt()) {
+                    // System.out.println("Troll coordinates");
+                    // System.out.println("(" + scan5.nextInt()  + "), (" + scan5.nextInt() + ")");
+                    Tile t = this.getTile(scan5.nextInt(), scan5.nextInt());
+                    t.setTroll(true);
+                }
+
+                fileScanner.close();
+
+                // now we set the home and place the robot in the room at the home location.
+                Tile agentHome = null;
+                do {
+                    agentHome = this.getTile(rand.nextInt(roomSize), rand.nextInt(roomSize));
+                } while (!(agentHome.hasPony() == false && agentHome.hasTroll() == false && agentHome.hasFurniture() == false));
+
+                agentHome.hasAgent = true;
+                agentHome.setHasVisited();
+
+                }
 
             catch(Exception e) {
                 System.out.print(fileName + " is not found");
