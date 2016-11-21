@@ -109,6 +109,13 @@ public class QLearning {
 
         Environment env = new Environment(fileName);
 
+        System.out.println("Agent symbol: " + env.getAgentSymbol());
+        System.out.println("Pony symbol: " + env.getPonySymbol());
+        System.out.println("Furniture symbol: " + env.getFurnitureSymbol());
+        System.out.println("Goal symbol: " + env.getGoalSymbol());
+        System.out.println("Troll symbol: " + env.getTrollSymbol());
+        System.out.println("Travelled symbol: " + env.getTravelledSymbol());
+
         try {
             writer = new PrintWriter("prog1_log.txt", "UTF-8");
             //writer.println("Time    <B Du Df Db Dr Dl Gu Gf Gb Gr Gl>       Action     Score");
@@ -154,11 +161,7 @@ public class QLearning {
             } else if (choice == 7) {
                 env.moveAgent(env.getAgentTile().getRow() + 1, env.getAgentTile().getCol() + 1);
             }
-            
-            
-
-            
-
+        
             // Display the ASCII state of the board
             //drawBoardState(env.getBoard());
 
@@ -168,11 +171,6 @@ public class QLearning {
 
             // Add one to the time
             time++;
-
-            // Print out underneath console
-            //System.out.println("Last action: " + moveStr);
-            //System.out.println("Score: " + overallScore);
-            //System.out.println("Vector: " + p.toString());
 
             int lengthOfInt = String.valueOf(time).length();
             int lengthOfScore = String.valueOf(overallScore).length();
@@ -198,8 +196,6 @@ public class QLearning {
         
         // TODO finish calculating score
         
-        
-        
         // Display the ASCII state of the board
         System.out.println();
         System.out.println("Score: " + overallScore);
@@ -214,6 +210,5 @@ public class QLearning {
         QLearning agent = new QLearning();
         String fileName = args[0];
         agent.run(fileName);
-
     }
 }

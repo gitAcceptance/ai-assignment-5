@@ -20,10 +20,17 @@ public class Environment {
     
     String heading;         // orientation of agent
     boolean sensorPressed;  // determines if sensor is pressed
+    
     int roomSize;           // constant for the room size
-
     int NUMBER_OF_TROLLS;
     int NUMBER_OF_PONIES;
+
+    final String theAgent = "B";
+    final String thePony = "P";
+    final String theFurniture = "X";
+    final String theGoal = "E";
+    final String theTroll = "T";
+    final String travelled = "$";
 
     // Create the initial envionment based on the input file
     public Environment(String fileName) {
@@ -130,13 +137,6 @@ public class Environment {
 
         String[][] theBoard = new String[roomSize][roomSize];
 
-        final String theAgent = "B";
-        final String thePony = "P";
-        final String theFurniture = "X";
-        final String theGoal = "E";
-        final String theTroll = "T";
-        final String travelled = "$";
-
         for (Tile t : this.map) {
 
             if(t.hasAgent) {
@@ -165,6 +165,29 @@ public class Environment {
         return theBoard;
     }
 
+    public String getAgentSymbol() {
+        return this.theAgent;
+    }
+
+    public String getPonySymbol() {
+        return this.thePony;
+    }
+
+    public String getFurnitureSymbol() {
+        return this.theFurniture;
+    }
+
+    public String getGoalSymbol() {
+        return this.theGoal;
+    }
+
+    public String getTrollSymbol() {
+        return this.theTroll;
+    }
+
+    public String getTravelledSymbol() {
+        return this.travelled;
+    }
 
     // Returns a reference to the tile on the map matching the given params.
     public Tile getTile(int row, int col) {
