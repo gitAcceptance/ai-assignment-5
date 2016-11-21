@@ -28,9 +28,10 @@ public class Environment {
 
         System.out.println("Line 1 Parsing: N value (room size) " + roomSize + ", Number of trolls (1-3): " + PIECES_OF_FURNITURE + ", Number of ponies (1-15): " + NUMBER_OF_PONIES);
 
-        int furnitureCount = 0;
-        int ponyCount = 0;
         int goalCount = 0;
+        int ponyCount = 0;
+        int furnitureCount = 0;
+        int trollCount = 0;
 
         this.map = new ArrayList<Tile>();
 
@@ -53,7 +54,7 @@ public class Environment {
             // This needs to turn into pony locations
             else if (NUMBER_OF_PONIES != ponyCount){
                 Tile t = this.getTile(integers.get(i+1), integers.get(i));
-                System.out.println("Line 4 parsing: Obstruction locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
+                System.out.println("Line 3 parsing: Pony locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
                 t.setPony(true);
                 ponyCount++;
             }
@@ -61,7 +62,7 @@ public class Environment {
             // This needs to turn into obstructons
             else if (PIECES_OF_FURNITURE != furnitureCount) {
                 Tile t = this.getTile(integers.get(i+1), integers.get(i));
-                System.out.println("Line 3 parsing: Pony locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
+                System.out.println("Line 4 parsing: Obstruction locaton : (" + integers.get(i+1) + "), (" + integers.get(i) + ")");
                 t.setFurniture(true);
                 furnitureCount++;
             }
@@ -87,7 +88,7 @@ public class Environment {
         final String thePony = "P";
         final String theFurniture = "X";
         final String theHome = "H";
-        final String theGoal = "$";
+        final String theGoal = "E";
 
         for (Tile t : this.map) {
 
