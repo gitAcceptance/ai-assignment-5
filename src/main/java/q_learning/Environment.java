@@ -26,6 +26,14 @@ public class Environment {
         int PIECES_OF_FURNITURE = integers.get(1); // 2 
         int NUMBER_OF_PONIES = integers.get(2); // 2
 
+        if(!(PIECES_OF_FURNITURE >= 1 && PIECES_OF_FURNITURE <= 3)) {
+            System.err.println("Pieces of furniture is not between 1 and 3!");
+        }
+
+        if(!(NUMBER_OF_PONIES >= 1 && NUMBER_OF_PONIES <= 15)) {
+            System.err.println("Number of ponies is not between 1 and 15!");
+        }
+
         System.out.println("Line 1 Parsing: N value (room size) " + roomSize + ", Number of trolls (1-3): " + PIECES_OF_FURNITURE + ", Number of ponies (1-15): " + NUMBER_OF_PONIES);
 
         int goalCount = 0;
