@@ -191,8 +191,9 @@ public class QLearning {
             // Display the ASCII state of the board
             //drawBoardState(env.getBoard());
 
-            // Subtract one from the score
+            // Add one from the score
             overallScore += 1;
+            
 
             // Add one to the time
             time++;
@@ -206,8 +207,18 @@ public class QLearning {
             int lengthOfScore = String.valueOf(overallScore).length();
             //int lengthOfMove = moveStr.length();
             
+            if (env.getAgentTile().hasTroll()) {
+            	overallScore -= 15;
+            	// TODO end the trial after he gets killed by the troll
+            }
+            
+            if (env.getAgentTile().hasPony()) {
+            	overallScore += 10;
+            }
+            
             if (env.getAgentTile().isAtGoal()) {
                 agentOn = false;
+                overallScore += 15;
             }
         }
         
@@ -224,17 +235,6 @@ public class QLearning {
         writer.close();
     }
     
-    public static int numberOfTrolls(Environment env) {
-    	int count = 0;
-    	for (int row = 0; row < env.roomSize; row++) {
-    		for (int col = 0; col < env.roomSize; col++) {
-    			if (env.getTile(row, col).hasTroll()) {
-    				count++;
-    			}
-    		}
-    	}
-    	return count;
-    }
 
     public static void main(String[] args) {
         QLearning agent = new QLearning();
