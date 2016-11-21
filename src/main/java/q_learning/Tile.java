@@ -89,8 +89,6 @@ public class Tile {
         this.hasVisited = true;
     }
     
-    
-
     public void setTroll(boolean tileHasTroll) {
         hasTroll = tileHasTroll;
     }

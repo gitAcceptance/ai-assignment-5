@@ -116,9 +116,7 @@ public class QLearning {
         System.out.println("Travelled symbol: " + env.getTravelledSymbol());
 
         try {
-            writer = new PrintWriter("prog1_log.txt", "UTF-8");
-            //writer.println("Time    <B Du Df Db Dr Dl Gu Gf Gb Gr Gl>       Action     Score");
-            //writer.println("-----------------------------------------       ------     -----");          
+            writer = new PrintWriter("prog1_log.txt", "UTF-8");       
         }
         catch (Exception e) {
             System.out.print("prog1_log.txt not created.");
@@ -132,9 +130,8 @@ public class QLearning {
         // While (The agent has not turned off)
         while(agentOn) {
 
-            // Get action from the reflex agent
+            // Get random choice from agent
             Agent a = new Agent();
-            //moveStr = Agent.getAction(p);
             int choice = a.getAction();
             
             /*  
@@ -177,7 +174,7 @@ public class QLearning {
             
             if (env.getAgentTile().hasTroll()) {
             	overallScore -= 15;
-            	System.out.println("The burglar has been eaten.");
+            	System.out.println("The burglar has been eaten. Quitting from program.");
             	break;
             	// TODO end the trial after he gets killed by the troll
             }
