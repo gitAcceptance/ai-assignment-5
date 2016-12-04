@@ -12,23 +12,15 @@ package q_learning;
 public class Tile {
 
     // class constants and variables
-    public int row;
-    public int col;
-    public boolean hasFurniture = false;
-    public boolean hasPony = false;
-    public boolean isGoal = false;
-    public boolean hasAgent = false;
-    public boolean hasTroll = false;
-    public boolean hasVisited = false;
-    public boolean hasObstruction = false;
+    private int row;
+    private int col;
+    private boolean hasFurniture = false;
+    private boolean hasPony = false;
+    private boolean isGoal = false;
+    private boolean hasAgent = false;
+    private boolean hasTroll = false;
+    private boolean hasVisited = false;
 
-    public boolean hasObstruction() {
-        return hasObstruction;
-    }
-
-    public void setHasObstruction(boolean hasObstruction) {
-        this.hasObstruction = hasObstruction;
-    }
 
     // Parameter: row - the row number of the grid
     //            column - the column number of the grid              
@@ -51,6 +43,14 @@ public class Tile {
     // Returns: the column number of the grid
     public int getCol() {
         return col;
+    }
+    
+    public boolean hasAgent() {
+        return hasAgent;
+    }
+
+    public void setHasAgent(boolean hasAgent) {
+        this.hasAgent = hasAgent;
     }
 
     // Parameter: tileHasFurniture - t/f for determining if tile has furniture on it         
@@ -107,7 +107,7 @@ public class Tile {
     // Parameter: N/A             
     // Precondition: N/A
     // Returns: the boolean value of the goal
-    public boolean isAtGoal() {
+    public boolean isGoal() {
         return isGoal;
     }
 }

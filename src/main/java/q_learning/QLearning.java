@@ -13,6 +13,12 @@ import java.io.*;
 import java.util.*;
 
 public class QLearning {
+    
+    Random rand;
+    
+    public QLearning() {
+        this.rand = new Random();
+    }
 
     // Draw ASCII board state 
     public void drawBoardState(String[][] theBoard, PrintWriter pw) {
@@ -131,8 +137,11 @@ public class QLearning {
         while(agentOn) {
 
             // Get random choice from agent
-            Agent a = new Agent();
-            int choice = a.getAction();
+            Agent a = new Agent(env, 0.5); // TODO pass the constructor what gamma is actually set to.
+            int choice = rand.nextInt(8);
+            
+            // FIXME replace all this trash with Agent.haveAnEpisode() method calls
+            // NOTE: MAKE SURE YOU USE Environment.setAgentTile() IF YOU HAVE TO. AGENT WILL STILL FUNCTION BUT ENVIRONMENT MIGHT PRINT WEIRD SHIT 
             
             /*  
              * Neighbor tile labels are:
@@ -184,7 +193,7 @@ public class QLearning {
             	env.getAgentTile().setPony(false);
             }
             
-            if (env.getAgentTile().isAtGoal()) {
+            if (env.getAgentTile().isGoal()) {
                 agentOn = false;
                 overallScore += 15;
             }

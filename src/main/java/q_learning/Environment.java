@@ -29,6 +29,8 @@ public class Environment {
     final String theGoal = "E";
     final String theTroll = "T";
     final String travelled = "$";
+    
+    private Agent steve;
 
     // Create the initial envionment based on the input file
     public Environment(String fileName) {
@@ -112,13 +114,12 @@ public class Environment {
 
             fileScanner.close();
 
-            // now we set the home and place the robot in the room at the home location.
+            // now we randomly set the home and place the robot in the room at the home location.
             Tile agentHome = null;
             do {
                 agentHome = this.getTile(rand.nextInt(roomSize), rand.nextInt(roomSize));
             } while (!(agentHome.hasPony() == false && agentHome.hasTroll() == false && agentHome.hasFurniture() == false));
-
-            agentHome.hasAgent = true;
+            agentHome.setHasAgent(true);
             agentHome.setHasVisited();
         }
 
@@ -135,7 +136,7 @@ public class Environment {
 
         for (Tile t : this.map) {
 
-            if(t.hasAgent) {
+            if(t.hasAgent()) {
                 theBoard[t.getRow()][t.getCol()] = theAgent;
             }
             else if (t.hasFurniture()) {
@@ -144,7 +145,7 @@ public class Environment {
             else if (t.hasPony()) {
                 theBoard[t.getRow()][t.getCol()] = thePony;
             }
-            else if (t.isAtGoal()) {
+            else if (t.isGoal()) {
                 theBoard[t.getRow()][t.getCol()] = theGoal;
             }
             else if (t.hasTroll()) {
@@ -196,30 +197,37 @@ public class Environment {
     // Returns a reference to the tile the agent is on.
     public Tile getAgentTile() {
         for (Tile t : this.map) {
-            if (t.hasAgent == true) {
+            if (t.hasAgent() == true) {
                 return t;
             }
         }
         return null;
     }
 
+    public void setAgentTile(Tile newLocation) {
+        this.getAgentTile().setHasAgent(false);
+        this.getTile(this.steve.getCurrentLocation().getRow(), this.steve.getCurrentLocation().getRow()).setHasAgent(true);
+    }
+    
+    
     // Move agent to specified location.
     // returns false if the attempted move isn't allowed, meaning the bump sensor should be triggered
     public boolean moveAgent(int row, int col) {
         if (this.getTile(row, col) == null) {                       // out of bounds
             return false;
-        } else if (this.getTile(row, col).hasFurniture == true) {   // furniture in the way
+        } else if (this.getTile(row, col).hasFurniture() == true) {   // furniture in the way
             return false;
         } else {
-            this.getAgentTile().hasAgent = false;
-            this.getTile(row, col).hasAgent = true;
+            this.getAgentTile().setHasAgent(false);
+            this.getTile(row, col).setHasAgent(true);
             
             this.getTile(row, col).setHasVisited();
             
             return true;
         }
     }
-
+    
+    
     // Remove pony from the board
     public void removePony(Tile tile) {
         tile.setPony(false);
@@ -229,4 +237,8 @@ public class Environment {
     public String getHeading() {
         return heading;
     }
+    
+    
+    
+    
 }
