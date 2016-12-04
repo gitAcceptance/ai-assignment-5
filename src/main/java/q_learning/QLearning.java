@@ -185,7 +185,6 @@ public class QLearning {
             	overallScore -= 15;
             	System.out.println("The burglar has been eaten. Quitting from program.");
             	break;
-            	// TODO end the trial after he gets killed by the troll
             }
             
             if (env.getAgentTile().hasPony()) {

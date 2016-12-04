@@ -15,7 +15,7 @@ import java.util.Random;
 
 public class Agent {
     private static Random rand = new Random();
-    
+    private boolean isAlive;
     private double gamma;
     private Environment env;
     private Tile currentLocation;
@@ -25,6 +25,7 @@ public class Agent {
     
     
     public Agent(Environment env, double gamma) {
+        this.isAlive = true;
         this.env = env;
         this.gamma = gamma;
         
@@ -87,21 +88,32 @@ public class Agent {
     }
     
     
-    public double maxQ(Tile t) {
-        // FIXME implement this
-        // start by using Agent.getPossibleMoves()
-        return -1d;
+    public double maxQ(Tile target) {
+        Tile max = null;
+        for (Tile t : getPossibleMoves(target)) {
+            if (max == null) {
+                max = t;
+            }
+            if (Q.get(target).get(t) > Q.get(target).get(max)) {
+                max = t;
+            }
+        }
+        return Q.get(target).get(max);
     }
     
  // TODO add ability to control which action selection method we use
     
     // one whole learning episode
     public void haveAnEpisode(Tile startingLocation) {
+        isAlive = true;
         this.currentLocation = startingLocation;
         
-        while (!currentLocation.isGoal()) { // TODO change to while not at goal AND not eaten
+        while (!currentLocation.isGoal() && isAlive) { // TODO change to while not at goal AND not eaten
             // TODO remove the 10 point reward from R whenever a pony is removed
             learningActionSelection();
+            if (currentLocation.hasTroll()) {
+                isAlive = false;
+            }
         }
         
         
@@ -116,7 +128,7 @@ public class Agent {
      * 5 6 7
      * 
      * 
-     * @return An int representing the move the agent wishes to make.
+     * 
      */
     public void learningActionSelection() {
         ArrayList<Tile> possibleFirstActions = this.getPossibleMoves(currentLocation);
