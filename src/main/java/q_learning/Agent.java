@@ -124,7 +124,7 @@ public class Agent {
         
         for (int i = 0; i < env.roomSize; i++) {
             for (int j = 0; j < env.roomSize; j++) {
-                System.out.println(i + "," + j + "  ");
+                System.out.println(i + "," + j + "  :");
                 for (int ii = 0; ii < env.roomSize; ii++) {
                     for (int jj = 0; jj < env.roomSize; jj++) {
                         System.out.print(Q.get(env.getTile(i, j)).get(env.getTile(ii, jj)) + "  ");
@@ -163,21 +163,7 @@ public class Agent {
     }
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     
     
@@ -203,40 +189,38 @@ public class Agent {
         isAlive = true;
         this.currentLocation = startingLocation;
         this.currentLocation.setHasVisited();
-        int count = 0;
+        
         while (isAlive) {
-            System.out.println("Agent position row:" + currentLocation.getRow() + " col:" + currentLocation.getCol());
+            //System.out.println("Agent position row:" + currentLocation.getRow() + " col:" + currentLocation.getCol());
             this.env.setAgentTile(currentLocation);
             if (printSteps) {
-                env.drawBoard();
-                printQmatrix();
+                //env.drawBoard();
+                //printQmatrix();
             }
             learningActionSelection();
             
             if (currentLocation.hasTroll()) {
-                System.out.println("We got eaten!");
+                //System.out.println("We got eaten!");
                 isAlive = false;
             } else if (currentLocation.hasPony()) {
-                System.out.println("We ate a pony!");
+                //System.out.println("We ate a pony!");
                 for (HashMap<Tile, Double> h : mutableR.values()) {
                     h.put(currentLocation, 0d);
                 }
             } else if (currentLocation.isGoal()) {
                 isAlive = false;
-                System.out.println("We made it to the exit!");
+                //System.out.println("We made it to the exit!");
             }
             
             
-            // FIXME why does this loop seemingly forever?
+
             
             
-            if (count > 20) {
-                isAlive=false;
-            }
-            System.out.println("Count is: " + count);
-            count++;
+            
+            //System.out.println("Count is: " + count);
+            
             try {
-                TimeUnit.SECONDS.sleep(1);
+                //TimeUnit.SECONDS.sleep(1);
             } catch (Exception e) {
                 // fuck it
             }
@@ -246,8 +230,44 @@ public class Agent {
     }
     
     
-    // should return total score
-    public int haveGreedyEpisode(Tile startingLocation) {
+    // TODO should return total score
+    public int haveGreedyEpisode() {
+        
+        env.refresh();
+        isAlive = true;
+        
+        Tile agentHome = null;
+        do {
+            agentHome = this.env.getTile(rand.nextInt(env.roomSize), rand.nextInt(env.roomSize));
+        } while (!(agentHome.hasPony() == false && agentHome.hasTroll() == false && agentHome.hasFurniture() == false));
+        
+        this.currentLocation = agentHome;
+        this.currentLocation.setHasVisited();
+        
+        
+        
+        
+        while (isAlive) {
+            System.out.println("Agent position row:" + currentLocation.getRow() + " col:" + currentLocation.getCol());
+            this.env.setAgentTile(currentLocation);
+            
+            greedyActionSelection();
+            
+            if (currentLocation.hasTroll()) {
+                
+                isAlive = false;
+            } else if (currentLocation.hasPony()) {
+                // add some points to score
+                
+            } else if (currentLocation.isGoal()) {
+                isAlive = false;
+                //System.out.println("We made it to the exit!");
+            }
+        }
+        
+        
+        
+        
         
         
         // TODO finish this
@@ -311,14 +331,6 @@ public class Agent {
                 nextState = t;
             }
         }
-        
-        // Q(state, action) = R(state, action) + gamma* MaxOf[Q(next state, all actions)]
-        double rValue = mutableR.get(currentLocation).get(nextState);
-        double gValue = this.gamma * maxQ(nextState);
-        
-        Q.get(currentLocation).put(nextState, rValue + gValue);
-        // Q has now been updated
-        
         this.currentLocation = nextState;
         // TODO is this method done? Hard to know since I haven't written any fucking tests!
         

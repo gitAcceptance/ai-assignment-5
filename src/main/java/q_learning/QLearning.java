@@ -15,7 +15,7 @@ import java.util.*;
 public class QLearning {
     
     Random rand;
-    public final int EPOCHS = 50;
+    public final int EPOCHS = 5000;
     
     public QLearning() {
         this.rand = new Random();
@@ -56,7 +56,7 @@ public class QLearning {
         System.out.println("Travelled symbol: " + env.getTravelledSymbol());
         
         // Display the ASCII state of the board
-        env.drawBoard();
+        //env.drawBoard();
         
         // While (The agent has not turned off)
         
@@ -68,7 +68,10 @@ public class QLearning {
         // FIXME replace all this trash with Agent.haveLearningEpisode() method calls
         // NOTE: MAKE SURE YOU USE Environment.setAgentTile() IF YOU HAVE TO. AGENT WILL STILL FUNCTION BUT ENVIRONMENT MIGHT PRINT WEIRD SHIT 
         
+        
+        
         // learning loop?
+        System.out.println("Starting to learn!");
         while (epochCount < EPOCHS) {
             
             a.haveLearningEpisode(env.getAgentTile());
@@ -79,8 +82,10 @@ public class QLearning {
             //System.out.println("ecpoch count is: " + epochCount);
             epochCount++;
         }
- 
+        System.out.println("I have finished learning!");
         
+        // TODO get the visited areas printing
+        a.haveGreedyEpisode();
       
         
         // TODO finish calculating score
