@@ -225,7 +225,34 @@ public class QLearning {
         }
         
         // Passes Alpha and Gamma as params
+        
+        System.out.println("********** Run 1/6 with alpha = 0.1, gamma = 0.5 **********");
         QLearning agent = new QLearning();
         agent.run(fileName, printEachStep, 0.1, 0.5);
+        
+        
+        
+        // TODO uncomment these when done 
+//        System.out.println("********** Run 2/6 with alpha = 0.5, gamma = 0.5 **********");
+//        QLearning agent1 = new QLearning();
+//        agent1.run(fileName, printEachStep, 0.5, 0.5);
+//        
+//        System.out.println("********** Run 3/6 with alpha = 0.9, gamma = 0.5 **********");
+//        QLearning agent2 = new QLearning();
+//        agent2.run(fileName, printEachStep, 0.9, 0.5);
+//        
+//        System.out.println("********** Run 4/6 with alpha = 0.6, gamma = 0.1 **********");
+//        QLearning agent3 = new QLearning();
+//        agent3.run(fileName, printEachStep, 0.6, 0.1);
+//        
+//        System.out.println("********** Run 5/6 with alpha = 0.6, gamma = 0.5 **********");
+//        QLearning agent4 = new QLearning();
+//        agent4.run(fileName, printEachStep, 0.6, 0.5);
+//        
+//        System.out.println("********** Run 6/6 with alpha = 0.6, gamma = 0.9 **********");
+//        QLearning agent5 = new QLearning();
+//        agent5.run(fileName, printEachStep, 0.6, 0.9);
+        
+        
     }
 }
