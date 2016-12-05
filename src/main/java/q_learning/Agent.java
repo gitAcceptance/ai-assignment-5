@@ -110,6 +110,7 @@ public class Agent {
         this.mutableR = new HashMap<Tile, HashMap<Tile, Double>>(this.R);
         isAlive = true;
         this.currentLocation = startingLocation;
+        this.currentLocation.setHasVisited();
         
         while (!currentLocation.isGoal() && isAlive) {
             
@@ -121,6 +122,12 @@ public class Agent {
                     h.put(currentLocation, 0d);
                 }
             }
+            
+            if (printSteps) {
+                // TODO print the board everytime
+                env.drawBoard();
+            }
+            
         }
         
         
@@ -151,11 +158,13 @@ public class Agent {
         // Q has now been updated
         
         this.currentLocation = nextState;
+        this.currentLocation.setHasVisited();
         // TODO is this method done? Hard to know since I haven't written any fucking tests!
         
     }
     
     public void greedyActionSelection() {
+        // TODO add a printout at the end
         ArrayList<Tile> possibleFirstActions = this.getPossibleMoves(currentLocation);
         Tile nextState = null;
         for (Tile t : possibleFirstActions) {

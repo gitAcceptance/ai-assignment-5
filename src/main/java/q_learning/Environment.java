@@ -15,6 +15,7 @@ import java.util.*;
 public class Environment {
     Random rand;
     ArrayList<Tile> map;    // arraylist of tiles
+    PrintWriter boardOut;
     
     String heading;         // orientation of agent
     boolean sensorPressed;  // determines if sensor is pressed
@@ -33,10 +34,11 @@ public class Environment {
     private Agent steve;
 
     // Create the initial envionment based on the input file
-    public Environment(String fileName) {
+    public Environment(String fileName, PrintWriter pw) {
 
         this.rand = new Random();
         this.heading = "NORTH";
+        this.boardOut = pw;
            
         try {
 
@@ -246,7 +248,86 @@ public class Environment {
 		return NUMBER_OF_PONIES;
 	}
     
+    public void drawBoard() {
+        for (int row = getBoard().length - 1; row >= 0; row--) {
+            
+            // Print the top wall
+            if(row == getBoard().length - 1) {
+                this.drawTopWall();
+            }
+
+            // Print the left wall
+            System.out.print("|");
+            boardOut.print("|");
+
+            for (int column = 0; column < getBoard().length; column++) {
+
+                // Display the content of cell board
+                if(column == getBoard().length - 1) {
+                    // TODO make the rows display properly (4,0) becomes (0,0)
+                    System.out.print(getBoard()[row][column]);
+                    boardOut.print(getBoard()[row][column]);
+                }
+                else {
+                    System.out.print(getBoard()[row][column] + " ");
+                    boardOut.print(getBoard()[row][column] + " ");
+                }
+            }
+
+            // Print the right wall
+            System.out.print("|");
+            boardOut.print("|");
+
+            // Go to the next line to print either the bottom or middle wall
+            System.out.println();
+            boardOut.println();
+
+            // Print the bottom wall
+            if(row == 0) {
+                this.drawBottomWall();
+            }
+
+            // Print the middle wall
+            else {
+                this.drawMiddleWall();
+            }
+
+            // Go to the next line to print pony, furniture, goal, home, or agent
+            System.out.println();
+            boardOut.println();
+        }
+    }
     
+    
+    // Draw the top wall
+    public void drawTopWall() {
+        for (int wall = 0; wall < this.getBoard().length; wall++) {
+            System.out.print("+-");
+            boardOut.print("+-");
+        }
+        System.out.print("+");
+        boardOut.print("+");
+        System.out.println();
+        boardOut.println();
+    }
+
+    // Draw the bottom wall
+    public void drawBottomWall() {
+        for (int wall = 0; wall < this.getBoard().length; wall++) {
+            System.out.print("+-");
+            boardOut.print("+-");
+        }
+        System.out.print("+");
+        boardOut.print("+");
+    }
+
+    // Draw the middle wall
+    public void drawMiddleWall() {
+        for (int column = 0; column < this.getBoard().length + 1; column++) {
+            System.out.print("+ ");
+            boardOut.print("+ ");
+        }
+    }
     
     
     
