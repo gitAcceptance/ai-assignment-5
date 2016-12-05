@@ -111,6 +111,7 @@ public class QLearning {
 
         int time = 0;
         int overallScore = 0;
+        int poniesEaten = 0;
 
         Environment env = new Environment(fileName);
 
@@ -189,6 +190,7 @@ public class QLearning {
             
             if (env.getAgentTile().hasPony()) {
             	overallScore += 10;
+            	poniesEaten += 1;
             	env.getAgentTile().setPony(false);
             }
             
@@ -203,6 +205,7 @@ public class QLearning {
         // Display the ASCII state of the board
         System.out.println();
         System.out.println("Score: " + overallScore);
+        System.out.println("Ponies eaten : " + poniesEaten + "/" + env.getNUMBER_OF_PONIES());
         writer.println();
         writer.println("Score: " + overallScore);
         drawBoardState(env.getBoard(), writer);

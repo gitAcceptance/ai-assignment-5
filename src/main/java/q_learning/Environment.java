@@ -20,8 +20,8 @@ public class Environment {
     boolean sensorPressed;  // determines if sensor is pressed
     
     int roomSize;           // constant for the room size
-    int NUMBER_OF_TROLLS;
-    int NUMBER_OF_PONIES;
+    private int NUMBER_OF_TROLLS;
+    private int NUMBER_OF_PONIES;
 
     final String theAgent = "B";
     final String thePony = "P";
@@ -237,6 +237,15 @@ public class Environment {
     public String getHeading() {
         return heading;
     }
+
+	public int getNUMBER_OF_TROLLS() {
+		return NUMBER_OF_TROLLS;
+	}
+
+	public int getNUMBER_OF_PONIES() {
+		return NUMBER_OF_PONIES;
+	}
+    
     
     
     
