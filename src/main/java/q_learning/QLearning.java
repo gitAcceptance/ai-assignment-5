@@ -103,7 +103,7 @@ public class QLearning {
     }
 
     // Run the instance of QLearning.java
-    public void run(String fileName) {
+    public void run(String fileName, boolean printEachStep) {
 
         String moveStr;
         boolean agentOn = true;
@@ -136,7 +136,7 @@ public class QLearning {
         
         // While (The agent has not turned off)
         while(agentOn) {
-
+        	     
             // Get random choice from agent
             Agent a = new Agent(env, 0.5); // TODO pass the constructor what gamma is actually set to.
             int choice = rand.nextInt(8);
@@ -168,8 +168,10 @@ public class QLearning {
                 env.moveAgent(env.getAgentTile().getRow() + 1, env.getAgentTile().getCol() + 1);
             }
         
-            // Display the ASCII state of the board
-            //drawBoardState(env.getBoard());
+            // Display the ASCII state of the board if the flag is set
+        	if(printEachStep) {
+        		drawBoardState(env.getBoard(), writer);
+        	}
 
             // Add one from the score
             overallScore += 1;
@@ -191,7 +193,7 @@ public class QLearning {
             if (env.getAgentTile().hasPony()) {
             	overallScore += 10;
             	poniesEaten += 1;
-            	env.getAgentTile().setPony(false);
+            	// env.getAgentTile().setPony(false);
             }
             
             if (env.getAgentTile().isGoal()) {
@@ -215,6 +217,12 @@ public class QLearning {
     public static void main(String[] args) {
         QLearning agent = new QLearning();
         String fileName = args[0];
-        agent.run(fileName);
+        boolean printEachStep = false;
+        
+        if(args.length == 2) {
+        	if(args[1].equals("--print"))
+        		printEachStep = true;
+        }
+        agent.run(fileName, printEachStep);
     }
 }
