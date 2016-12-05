@@ -329,6 +329,10 @@ public class Environment {
         }
     }
     
-    
+    public void refresh() {
+        for (Tile t : map) {
+            t.resetVisited();
+        }
+    }
     
 }

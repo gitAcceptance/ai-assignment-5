@@ -106,14 +106,14 @@ public class Agent {
  // TODO add ability to control which action selection method we use
     
     // one whole learning episode
-    public void haveAnEpisode(Tile startingLocation) {
+    public void haveLearningEpisode(Tile startingLocation) {
+        env.refresh();
         this.mutableR = new HashMap<Tile, HashMap<Tile, Double>>(this.R);
         isAlive = true;
         this.currentLocation = startingLocation;
         this.currentLocation.setHasVisited();
         
         while (!currentLocation.isGoal() && isAlive) {
-            
             learningActionSelection();
             if (currentLocation.hasTroll()) {
                 isAlive = false;
@@ -122,15 +122,32 @@ public class Agent {
                     h.put(currentLocation, 0d);
                 }
             }
-            
             if (printSteps) {
-                // TODO print the board everytime
                 env.drawBoard();
             }
+            
             
         }
         
         
+    }
+    
+    public int haveGreedyEpisode(Tile startingLocation) {
+        
+        
+        // TODO finish this
+     // now we keep track of the score
+        if (env.getAgentTile().hasTroll()) {
+            //overallScore -= 15;
+        }
+        if (env.getAgentTile().hasPony()) {
+            //overallScore += 10;
+        }
+        if (env.getAgentTile().isGoal()) {
+            //overallScore += 15;
+        }
+        
+        return -1;
     }
     
     /**
@@ -164,7 +181,7 @@ public class Agent {
     }
     
     public void greedyActionSelection() {
-        // TODO add a printout at the end
+        env.drawBoard();
         ArrayList<Tile> possibleFirstActions = this.getPossibleMoves(currentLocation);
         Tile nextState = null;
         for (Tile t : possibleFirstActions) {
@@ -178,7 +195,6 @@ public class Agent {
         
         // Q(state, action) = R(state, action) + gamma* MaxOf[Q(next state, all actions)]
         double rValue = mutableR.get(currentLocation).get(nextState);
-        
         double gValue = this.gamma * maxQ(nextState);
         
         Q.get(currentLocation).put(nextState, rValue + gValue);
@@ -187,6 +203,7 @@ public class Agent {
         this.currentLocation = nextState;
         // TODO is this method done? Hard to know since I haven't written any fucking tests!
         
+        env.drawBoard();
     }
     
     public Tile getCurrentLocation() {
