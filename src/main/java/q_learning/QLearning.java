@@ -103,7 +103,7 @@ public class QLearning {
     }
 
     // Run the instance of QLearning.java
-    public void run(String fileName, boolean printEachStep) {
+    public void run(String fileName, boolean printEachStep, double alpha, double gamma) {
 
         String moveStr;
         boolean agentOn = true;
@@ -138,7 +138,7 @@ public class QLearning {
         while(agentOn) {
         	     
             // Get random choice from agent
-            Agent a = new Agent(env, 0.5); // TODO pass the constructor what gamma is actually set to.
+            Agent a = new Agent(env, alpha, gamma);
             int choice = rand.nextInt(8);
             
             // FIXME replace all this trash with Agent.haveAnEpisode() method calls
@@ -215,7 +215,7 @@ public class QLearning {
     }
 
     public static void main(String[] args) {
-        QLearning agent = new QLearning();
+     
         String fileName = args[0];
         boolean printEachStep = false;
         
@@ -223,6 +223,9 @@ public class QLearning {
         	if(args[1].equals("--print"))
         		printEachStep = true;
         }
-        agent.run(fileName, printEachStep);
+        
+        // Passes Alpha and Gamma as params
+        QLearning agent = new QLearning();
+        agent.run(fileName, printEachStep, 0.1, 0.5);
     }
 }
