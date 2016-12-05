@@ -24,34 +24,28 @@ public class Agent {
     private HashMap<Tile, HashMap<Tile, Double>> mutableR;
     
     
-    public Agent(Environment env, double gamma) {
+    public Agent(Environment env, double alpha, double gamma) {
         this.isAlive = true;
         this.env = env;
         this.gamma = gamma;
         
         this.Q = new HashMap<Tile, HashMap<Tile, Double>>();
         this.R = new HashMap<Tile, HashMap<Tile, Double>>();
-        this.mutableR = new HashMap<Tile, HashMap<Tile, Double>>();
         
         // Initialize Q and R
         for (Tile current : this.env.map) {
             Q.put(current, new HashMap<Tile, Double>());
             R.put(current, new HashMap<Tile, Double>());
-            mutableR.put(current, new HashMap<Tile, Double>());
             for (Tile destination: this.env.map) {
                 Q.get(current).put(destination, 0.0d);
                 if (destination.isGoal()) {
                     R.get(current).put(destination, 15.0d);
-                    mutableR.get(current).put(destination, 15.0d);
                 } else if (destination.hasPony()) {
                     R.get(current).put(destination, 10.0d);
-                    mutableR.get(current).put(destination, 10.0d);
                 } else if (destination.hasTroll()) {
                     R.get(current).put(destination, -15.0d);
-                    mutableR.get(current).put(destination, -15.0d);
                 } else {
                     R.get(current).put(destination, 0.0d);
-                    mutableR.get(current).put(destination, 0.0d);
                 }
             }
         }
@@ -109,7 +103,6 @@ public class Agent {
     
     // one whole learning episode
     public void haveAnEpisode(Tile startingLocation) {
-        
         this.mutableR = new HashMap<Tile, HashMap<Tile, Double>>(this.R);
         isAlive = true;
         this.currentLocation = startingLocation;
@@ -159,6 +152,27 @@ public class Agent {
     }
     
     public void greedyActionSelection() {
+        ArrayList<Tile> possibleFirstActions = this.getPossibleMoves(currentLocation);
+        Tile nextState = null;
+        for (Tile t : possibleFirstActions) {
+            if (nextState == null) {
+                nextState = t;
+            }
+            if (Q.get(currentLocation).get(t) > Q.get(currentLocation).get(nextState)) {
+                nextState = t;
+            }
+        }
+        
+        // Q(state, action) = R(state, action) + gamma* MaxOf[Q(next state, all actions)]
+        double rValue = mutableR.get(currentLocation).get(nextState);
+        
+        double gValue = this.gamma * maxQ(nextState);
+        
+        Q.get(currentLocation).put(nextState, rValue + gValue);
+        // Q has now been updated
+        
+        this.currentLocation = nextState;
+        // TODO is this method done? Hard to know since I haven't written any fucking tests!
         
     }
     
