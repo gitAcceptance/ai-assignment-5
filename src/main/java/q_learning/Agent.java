@@ -21,7 +21,7 @@ public class Agent {
     private Tile currentLocation;
     private HashMap<Tile, HashMap<Tile, Double>> Q;
     private HashMap<Tile, HashMap<Tile, Double>> R;
-    
+    private HashMap<Tile, HashMap<Tile, Double>> mutableR;
     
     
     public Agent(Environment env, double gamma) {
@@ -31,26 +31,30 @@ public class Agent {
         
         this.Q = new HashMap<Tile, HashMap<Tile, Double>>();
         this.R = new HashMap<Tile, HashMap<Tile, Double>>();
+        this.mutableR = new HashMap<Tile, HashMap<Tile, Double>>();
         
         // Initialize Q and R
         for (Tile current : this.env.map) {
             Q.put(current, new HashMap<Tile, Double>());
             R.put(current, new HashMap<Tile, Double>());
+            mutableR.put(current, new HashMap<Tile, Double>());
             for (Tile destination: this.env.map) {
                 Q.get(current).put(destination, 0.0d);
                 if (destination.isGoal()) {
                     R.get(current).put(destination, 15.0d);
+                    mutableR.get(current).put(destination, 15.0d);
                 } else if (destination.hasPony()) {
                     R.get(current).put(destination, 10.0d);
+                    mutableR.get(current).put(destination, 10.0d);
                 } else if (destination.hasTroll()) {
                     R.get(current).put(destination, -15.0d);
+                    mutableR.get(current).put(destination, -15.0d);
                 } else {
                     R.get(current).put(destination, 0.0d);
+                    mutableR.get(current).put(destination, 0.0d);
                 }
             }
         }
-        
-        
     }
 
     
@@ -105,14 +109,20 @@ public class Agent {
     
     // one whole learning episode
     public void haveAnEpisode(Tile startingLocation) {
+        
+        this.mutableR = new HashMap<Tile, HashMap<Tile, Double>>(this.R);
         isAlive = true;
         this.currentLocation = startingLocation;
         
-        while (!currentLocation.isGoal() && isAlive) { // TODO change to while not at goal AND not eaten
-            // TODO remove the 10 point reward from R whenever a pony is removed
+        while (!currentLocation.isGoal() && isAlive) {
+            
             learningActionSelection();
             if (currentLocation.hasTroll()) {
                 isAlive = false;
+            } else if (currentLocation.hasPony()) {
+                for (HashMap<Tile, Double> h : mutableR.values()) {
+                    h.put(currentLocation, 0d);
+                }
             }
         }
         
@@ -136,7 +146,7 @@ public class Agent {
         
         
         // Q(state, action) = R(state, action) + gamma* MaxOf[Q(next state, all actions)]
-        double rValue = R.get(currentLocation).get(nextState);
+        double rValue = mutableR.get(currentLocation).get(nextState);
         
         double gValue = this.gamma * maxQ(nextState);
         
