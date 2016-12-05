@@ -129,6 +129,12 @@ public class Environment {
             System.out.print(fileName + " is not found");
             e.printStackTrace();
         }
+        
+        if (this.getAgentTile() == null) {
+            System.out.println("FUCK");
+        }
+        
+        
     }
 
     // get the current state of the board in an easily printable form
@@ -144,6 +150,9 @@ public class Environment {
             else if (t.hasFurniture()) {
                 theBoard[t.getRow()][t.getCol()] = theFurniture;
             }
+            else if (t.hasVisited()) {
+                theBoard[t.getRow()][t.getCol()] = travelled;
+            }
             else if (t.hasPony()) {
                 theBoard[t.getRow()][t.getCol()] = thePony;
             }
@@ -153,9 +162,6 @@ public class Environment {
             else if (t.hasTroll()) {
                 theBoard[t.getRow()][t.getCol()] = theTroll;
             } 
-            else if (t.hasVisited()) {
-                theBoard[t.getRow()][t.getCol()] = travelled;
-            }
             else {
                 theBoard[t.getRow()][t.getCol()] = " ";
             }
@@ -208,7 +214,8 @@ public class Environment {
 
     public void setAgentTile(Tile newLocation) {
         this.getAgentTile().setHasAgent(false);
-        this.getTile(this.steve.getCurrentLocation().getRow(), this.steve.getCurrentLocation().getRow()).setHasAgent(true);
+        //this.getTile(this.steve.getCurrentLocation().getRow(), this.steve.getCurrentLocation().getRow()).setHasAgent(true);
+        this.getTile(newLocation.getRow(), newLocation.getCol()).setHasAgent(true);
     }
     
     
@@ -330,9 +337,16 @@ public class Environment {
     }
     
     public void refresh() {
+        
+        // FIXME also have to rerandom a starting position for the agent
         for (Tile t : map) {
             t.resetVisited();
         }
     }
+    
+    public void setAgent(Agent a) {
+        this.steve = a;
+    }
+    
     
 }

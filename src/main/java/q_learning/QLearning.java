@@ -15,7 +15,7 @@ import java.util.*;
 public class QLearning {
     
     Random rand;
-    public final int EPOCHS = 10000;
+    public final int EPOCHS = 50;
     
     public QLearning() {
         this.rand = new Random();
@@ -26,6 +26,7 @@ public class QLearning {
     // Run the instance of QLearning.java
     public void run(String fileName, boolean printEachStep, double alpha, double gamma) {
 
+        printEachStep = true;
         String moveStr;
         boolean agentOn = true;
         PrintWriter writer = null;
@@ -62,6 +63,7 @@ public class QLearning {
     	     
         // Get random choice from agent
         Agent a = new Agent(env, alpha, gamma, printEachStep);
+        env.setAgent(a);
         
         // FIXME replace all this trash with Agent.haveLearningEpisode() method calls
         // NOTE: MAKE SURE YOU USE Environment.setAgentTile() IF YOU HAVE TO. AGENT WILL STILL FUNCTION BUT ENVIRONMENT MIGHT PRINT WEIRD SHIT 
@@ -74,6 +76,7 @@ public class QLearning {
             
             
             // TODO keep track of the ponies we ate
+            //System.out.println("ecpoch count is: " + epochCount);
             epochCount++;
         }
  

@@ -12,6 +12,7 @@ package q_learning;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class Agent {
     private static Random rand = new Random();
@@ -85,7 +86,10 @@ public class Agent {
         } else if (row+1 >= 0 && row+1 <= this.env.roomSize && col+1 >= 0 && col+1 <= this.env.roomSize && !this.env.getTile(row+1, col+1).hasFurniture()) { // 1 1
             options.add(this.env.getTile(row+1, col+1));
         }
-        
+        if (options.isEmpty()) {
+            System.out.println("Your problem is here.");
+            System.exit(1);
+        }
         return options;
     }
     
@@ -112,26 +116,46 @@ public class Agent {
         isAlive = true;
         this.currentLocation = startingLocation;
         this.currentLocation.setHasVisited();
-        
-        while (!currentLocation.isGoal() && isAlive) {
+        int count = 0;
+        while (isAlive) {
+            System.out.println("Agent position row:" + currentLocation.getRow() + " col:" + currentLocation.getCol());
+            this.env.setAgentTile(currentLocation);
+            if (printSteps) {
+                env.drawBoard();
+            }
             learningActionSelection();
+            
             if (currentLocation.hasTroll()) {
                 isAlive = false;
             } else if (currentLocation.hasPony()) {
                 for (HashMap<Tile, Double> h : mutableR.values()) {
                     h.put(currentLocation, 0d);
                 }
-            }
-            if (printSteps) {
-                env.drawBoard();
+            } else if (currentLocation.isGoal()) {
+                isAlive = false;
             }
             
             
+            // FIXME why does this loop seemingly forever?
+            
+            
+            if (count > 20) {
+                isAlive=false;
+            }
+            System.out.println("Count is: " + count);
+            count++;
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (Exception e) {
+                // fuck it
+            }
         }
         
         
     }
     
+    
+    // should return total score
     public int haveGreedyEpisode(Tile startingLocation) {
         
         
@@ -162,8 +186,13 @@ public class Agent {
      * 
      */
     public void learningActionSelection() {
+        if (env.getAgentTile() == null) {
+            System.out.println("uh oh");
+        }
+        //System.out.println("Agent position before move row:" + currentLocation.getRow() + " col:" + currentLocation.getCol());
+        
         ArrayList<Tile> possibleFirstActions = this.getPossibleMoves(currentLocation);
-        Tile nextState = possibleFirstActions.get(rand.nextInt(env.roomSize));
+        Tile nextState = possibleFirstActions.get(rand.nextInt(possibleFirstActions.size()));
         
         
         // Q(state, action) = R(state, action) + gamma* MaxOf[Q(next state, all actions)]
@@ -175,7 +204,9 @@ public class Agent {
         // Q has now been updated
         
         this.currentLocation = nextState;
+        //env.setAgentTile(this.currentLocation);
         this.currentLocation.setHasVisited();
+        //System.out.println("Agent position after move row:" + currentLocation.getRow() + " col:" + currentLocation.getCol());
         // TODO is this method done? Hard to know since I haven't written any fucking tests!
         
     }
