@@ -16,6 +16,8 @@ import java.util.Random;
 public class Agent {
     private static Random rand = new Random();
     private boolean isAlive;
+    private boolean printSteps;
+    private double alpha;
     private double gamma;
     private Environment env;
     private Tile currentLocation;
@@ -24,10 +26,12 @@ public class Agent {
     private HashMap<Tile, HashMap<Tile, Double>> mutableR;
     
     
-    public Agent(Environment env, double alpha, double gamma) {
+    public Agent(Environment env, double alpha, double gamma, boolean printSteps) {
         this.isAlive = true;
         this.env = env;
+        this.alpha = alpha;
         this.gamma = gamma;
+        this.printSteps = printSteps;
         
         this.Q = new HashMap<Tile, HashMap<Tile, Double>>();
         this.R = new HashMap<Tile, HashMap<Tile, Double>>();

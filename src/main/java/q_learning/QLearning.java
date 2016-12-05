@@ -138,7 +138,7 @@ public class QLearning {
         while(agentOn) {
         	     
             // Get random choice from agent
-            Agent a = new Agent(env, alpha, gamma);
+            Agent a = new Agent(env, alpha, gamma, printEachStep);
             int choice = rand.nextInt(8);
             
             // FIXME replace all this trash with Agent.haveAnEpisode() method calls
