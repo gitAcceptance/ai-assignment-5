@@ -15,6 +15,7 @@ import java.util.*;
 public class QLearning {
     
     Random rand;
+    public final int EPOCHS = 10000;
     
     public QLearning() {
         this.rand = new Random();
@@ -112,6 +113,7 @@ public class QLearning {
         int time = 0;
         int overallScore = 0;
         int poniesEaten = 0;
+        int epochCount = 0;
 
         Environment env = new Environment(fileName);
 
@@ -144,63 +146,70 @@ public class QLearning {
             // FIXME replace all this trash with Agent.haveAnEpisode() method calls
             // NOTE: MAKE SURE YOU USE Environment.setAgentTile() IF YOU HAVE TO. AGENT WILL STILL FUNCTION BUT ENVIRONMENT MIGHT PRINT WEIRD SHIT 
             
-            /*  
-             * Neighbor tile labels are:
-             * 0 1 2
-             * 3 A 4
-             * 5 6 7
-             */
-            if (choice == 0) {
-                env.moveAgent(env.getAgentTile().getRow() - 1, env.getAgentTile().getCol() - 1);
-            } else if (choice == 1) {
-                env.moveAgent(env.getAgentTile().getRow() - 1, env.getAgentTile().getCol());
-            } else if (choice == 2) {
-                env.moveAgent(env.getAgentTile().getRow() - 1, env.getAgentTile().getCol() + 1);
-            } else if (choice == 3) {
-                env.moveAgent(env.getAgentTile().getRow(), env.getAgentTile().getCol() - 1);
-            } else if (choice == 4) {
-                env.moveAgent(env.getAgentTile().getRow(), env.getAgentTile().getCol() + 1);
-            } else if (choice == 5) {
-                env.moveAgent(env.getAgentTile().getRow() + 1, env.getAgentTile().getCol() - 1);
-            } else if (choice == 6) {
-                env.moveAgent(env.getAgentTile().getRow() + 1, env.getAgentTile().getCol());
-            } else if (choice == 7) {
-                env.moveAgent(env.getAgentTile().getRow() + 1, env.getAgentTile().getCol() + 1);
-            }
+            // WHILE(epochCount > 10000)
+            
+	            /*  
+	             * Neighbor tile labels are:
+	             * 0 1 2
+	             * 3 A 4
+	             * 5 6 7
+	             */
+	            if (choice == 0) {
+	                env.moveAgent(env.getAgentTile().getRow() - 1, env.getAgentTile().getCol() - 1);
+	            } else if (choice == 1) {
+	                env.moveAgent(env.getAgentTile().getRow() - 1, env.getAgentTile().getCol());
+	            } else if (choice == 2) {
+	                env.moveAgent(env.getAgentTile().getRow() - 1, env.getAgentTile().getCol() + 1);
+	            } else if (choice == 3) {
+	                env.moveAgent(env.getAgentTile().getRow(), env.getAgentTile().getCol() - 1);
+	            } else if (choice == 4) {
+	                env.moveAgent(env.getAgentTile().getRow(), env.getAgentTile().getCol() + 1);
+	            } else if (choice == 5) {
+	                env.moveAgent(env.getAgentTile().getRow() + 1, env.getAgentTile().getCol() - 1);
+	            } else if (choice == 6) {
+	                env.moveAgent(env.getAgentTile().getRow() + 1, env.getAgentTile().getCol());
+	            } else if (choice == 7) {
+	                env.moveAgent(env.getAgentTile().getRow() + 1, env.getAgentTile().getCol() + 1);
+	            }
+	        
+	            // TODO Remove the flag functionality in QLearning when andrew puts in agent
+	            // Display the ASCII state of the board if the flag is set
+	        	if(printEachStep) {
+	        		drawBoardState(env.getBoard(), writer);
+	        	}
+	
+	            // Add one from the score
+	            overallScore += 1;
+	            
+	
+	            // Add one to the time
+	            time++;
+	
+	            int lengthOfInt = String.valueOf(time).length();
+	            int lengthOfScore = String.valueOf(overallScore).length();
+	            //int lengthOfMove = moveStr.length();
+	            
+	            if (env.getAgentTile().hasTroll()) {
+	            	overallScore -= 15;
+	            	System.out.println("The burglar has been eaten. Quitting from program.");
+	            	break;
+	            }
+	            
+	            if (env.getAgentTile().hasPony()) {
+	            	overallScore += 10;
+	            	poniesEaten += 1;
+	            	// env.getAgentTile().setPony(false);
+	            }
+	            
+	            if (env.getAgentTile().isGoal()) {
+	                agentOn = false;
+	                overallScore += 15;
+	            }
+	            // epochCount++;
+            // END WHILE FOR EPOCHS
+        } // END WHILE(AgentOn)
         
-            // Display the ASCII state of the board if the flag is set
-        	if(printEachStep) {
-        		drawBoardState(env.getBoard(), writer);
-        	}
-
-            // Add one from the score
-            overallScore += 1;
-            
-
-            // Add one to the time
-            time++;
-
-            int lengthOfInt = String.valueOf(time).length();
-            int lengthOfScore = String.valueOf(overallScore).length();
-            //int lengthOfMove = moveStr.length();
-            
-            if (env.getAgentTile().hasTroll()) {
-            	overallScore -= 15;
-            	System.out.println("The burglar has been eaten. Quitting from program.");
-            	break;
-            }
-            
-            if (env.getAgentTile().hasPony()) {
-            	overallScore += 10;
-            	poniesEaten += 1;
-            	// env.getAgentTile().setPony(false);
-            }
-            
-            if (env.getAgentTile().isGoal()) {
-                agentOn = false;
-                overallScore += 15;
-            }
-        }
+      
         
         // TODO finish calculating score
         
@@ -220,8 +229,9 @@ public class QLearning {
         boolean printEachStep = false;
         
         if(args.length == 2) {
-        	if(args[1].equals("--print"))
+        	if(args[1].equals("--print")) {
         		printEachStep = true;
+        	}
         }
         
         // Passes Alpha and Gamma as params
