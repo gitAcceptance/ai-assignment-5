@@ -62,36 +62,123 @@ public class Agent {
         int col = t.getCol();
         int row = t.getRow();
         
-        if (row-1 >= 0 && row-1 <= this.env.roomSize && col-1 >= 0 && col-1 <= this.env.roomSize && !this.env.getTile(row-1, col-1).hasFurniture()) { // -1 -1
-            options.add(this.env.getTile(row-1, col-1));
-            
-        } else if (row-1 >= 0 && row-1 <= this.env.roomSize && !this.env.getTile(row-1, col).hasFurniture()) { // -1 0
-            options.add(this.env.getTile(row-1, col));
-            
-        } else if (row-1 >= 0 && row-1 <= this.env.roomSize && col+1 >= 0 && col+1 <= this.env.roomSize && !this.env.getTile(row-1, col+1).hasFurniture()) { // -1 1
-            options.add(this.env.getTile(row-1, col+1));
-            
-        } else if (col-1 >= 0 && col-1 <= this.env.roomSize && !this.env.getTile(row, col-1).hasFurniture()) { // 0 -1
-            options.add(this.env.getTile(row, col-1));
-            
-        } else if (col+1 >= 0 && col+1 <= this.env.roomSize && !this.env.getTile(row, col+1).hasFurniture()) { // 0 1
-            options.add(this.env.getTile(row, col+1));
-            
-        } else if (row-1 >= 0 && row-1 <= this.env.roomSize && col+1 >= 0 && col+1 <= this.env.roomSize && !this.env.getTile(row+1, col-1).hasFurniture()) { // 1 -1
-            options.add(this.env.getTile(row+1, col-1));
-            
-        } else if (row+1 >= 0 && row+1 <= this.env.roomSize && !this.env.getTile(row+1, col).hasFurniture()) { // 1 0
-            options.add(this.env.getTile(row+1, col));
-            
-        } else if (row+1 >= 0 && row+1 <= this.env.roomSize && col+1 >= 0 && col+1 <= this.env.roomSize && !this.env.getTile(row+1, col+1).hasFurniture()) { // 1 1
-            options.add(this.env.getTile(row+1, col+1));
+        if (row-1 >= 0 && row-1 < this.env.roomSize && col-1 >= 0 && col-1 < this.env.roomSize) { // -1 -1
+            if (!this.env.getTile(row-1, col-1).hasFurniture()) {
+                options.add(this.env.getTile(row-1, col-1));
+            }
         }
-        if (options.isEmpty()) {
+        if (row-1 >= 0 && row-1 < this.env.roomSize) { // -1 0
+            if (!this.env.getTile(row-1, col).hasFurniture()) {
+                options.add(this.env.getTile(row-1, col));
+            }
+        }
+        if (row-1 >= 0 && row-1 < this.env.roomSize && col+1 >= 0 && col+1 < this.env.roomSize) { // -1 1
+            if (!this.env.getTile(row-1, col+1).hasFurniture()) {
+                options.add(this.env.getTile(row-1, col+1));
+            }
+        }
+        if (col-1 >= 0 && col-1 < this.env.roomSize) { // 0 -1
+            if (!this.env.getTile(row, col-1).hasFurniture()) {
+                options.add(this.env.getTile(row, col-1));
+            }
+        }
+        if (col+1 >= 0 && col+1 < this.env.roomSize) { // 0 1
+            if (!this.env.getTile(row, col+1).hasFurniture()) {
+                options.add(this.env.getTile(row, col+1));
+            }
+        }
+        if (row+1 >= 0 && row+1 < this.env.roomSize && col-1 >= 0 && col-1 < this.env.roomSize) { // 1 -1
+            if (!this.env.getTile(row+1, col-1).hasFurniture()) {
+                options.add(this.env.getTile(row+1, col-1));
+            }
+        }
+        if (row+1 >= 0 && row+1 < this.env.roomSize) { // 1 0
+            if (!this.env.getTile(row+1, col).hasFurniture()) {
+                options.add(this.env.getTile(row+1, col));
+            }
+        }
+        if (row+1 >= 0 && row+1 < this.env.roomSize && col+1 >= 0 && col+1 < this.env.roomSize) { // 1 1
+            if (!this.env.getTile(row+1, col+1).hasFurniture()) {
+                options.add(this.env.getTile(row+1, col+1));
+            }
+        }
+        if (options.size() == 1) {
             System.out.println("Your problem is here.");
-            System.exit(1);
+            // FIXME my problem actually is here
+            
         }
         return options;
     }
+    
+    
+    
+    public void printQmatrix() {
+        System.out.println();
+        for (int i = 0; i < env.roomSize; i++) {
+            for (int j = 0; j < env.roomSize; j++) {
+                System.out.print(i + "," + j + "  ");
+            }
+        }
+        //System.out.println();
+        
+        
+        for (int i = 0; i < env.roomSize; i++) {
+            for (int j = 0; j < env.roomSize; j++) {
+                System.out.println(i + "," + j + "  ");
+                for (int ii = 0; ii < env.roomSize; ii++) {
+                    for (int jj = 0; jj < env.roomSize; jj++) {
+                        System.out.print(Q.get(env.getTile(i, j)).get(env.getTile(ii, jj)) + "  ");
+                    }
+                }
+            }
+        }
+        
+        
+        
+        
+        
+    }
+    
+    
+    public void printRmatrix() {
+        System.out.println();
+        for (int i = 0; i < env.roomSize; i++) {
+            for (int j = 0; j < env.roomSize; j++) {
+                System.out.print(i + "," + j + "  ");
+            }
+        }
+        //System.out.println();
+        
+        
+        for (int i = 0; i < env.roomSize; i++) {
+            for (int j = 0; j < env.roomSize; j++) {
+                System.out.println(i + "," + j + "  ");
+                for (int ii = 0; ii < env.roomSize; ii++) {
+                    for (int jj = 0; jj < env.roomSize; jj++) {
+                        System.out.print(R.get(env.getTile(i, j)).get(env.getTile(ii, jj)) + "  ");
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     public double maxQ(Tile target) {
@@ -122,17 +209,21 @@ public class Agent {
             this.env.setAgentTile(currentLocation);
             if (printSteps) {
                 env.drawBoard();
+                printQmatrix();
             }
             learningActionSelection();
             
             if (currentLocation.hasTroll()) {
+                System.out.println("We got eaten!");
                 isAlive = false;
             } else if (currentLocation.hasPony()) {
+                System.out.println("We ate a pony!");
                 for (HashMap<Tile, Double> h : mutableR.values()) {
                     h.put(currentLocation, 0d);
                 }
             } else if (currentLocation.isGoal()) {
                 isAlive = false;
+                System.out.println("We made it to the exit!");
             }
             
             
@@ -181,9 +272,6 @@ public class Agent {
      * 0 1 2
      * 3 A 4
      * 5 6 7
-     * 
-     * 
-     * 
      */
     public void learningActionSelection() {
         if (env.getAgentTile() == null) {
