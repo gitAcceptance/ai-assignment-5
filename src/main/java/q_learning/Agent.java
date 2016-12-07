@@ -50,6 +50,7 @@ public class Agent {
                 } else if (destination.hasTroll()) {
                     R.get(current).put(destination, -15.0d);
                 } else {
+                	// TODO this should be 2.0
                     R.get(current).put(destination, 0.0d);
                 }
             }
@@ -104,8 +105,6 @@ public class Agent {
         }
         if (options.size() == 1) {
             System.out.println("Your problem is here.");
-            // FIXME my problem actually is here
-            
         }
         return options;
     }
@@ -193,10 +192,10 @@ public class Agent {
         while (isAlive) {
             //System.out.println("Agent position row:" + currentLocation.getRow() + " col:" + currentLocation.getCol());
             this.env.setAgentTile(currentLocation);
-            if (printSteps) {
-                //env.drawBoard();
-                //printQmatrix();
-            }
+//            if (printSteps) {
+//                env.drawBoard();
+//                //printQmatrix();
+//            }
             learningActionSelection();
             
             if (currentLocation.hasTroll()) {
@@ -212,11 +211,6 @@ public class Agent {
                 //System.out.println("We made it to the exit!");
             }
             
-            
-
-            
-            
-            
             //System.out.println("Count is: " + count);
             
             try {
@@ -224,14 +218,10 @@ public class Agent {
             } catch (Exception e) {
                 // fuck it
             }
-        }
-        
-        
+        }    
     }
     
-    
-    // TODO should return total score
-    public int haveGreedyEpisode() {
+    public void haveGreedyEpisode() {
         
         env.refresh();
         isAlive = true;
@@ -251,38 +241,24 @@ public class Agent {
             System.out.println("Agent position row:" + currentLocation.getRow() + " col:" + currentLocation.getCol());
             this.env.setAgentTile(currentLocation);
             
+            if (printSteps) {
+                env.drawBoard();
+                //printQmatrix();
+            }
+            
             greedyActionSelection();
             
             if (currentLocation.hasTroll()) {
-                
+            	System.out.print("We hit a troll.");
                 isAlive = false;
             } else if (currentLocation.hasPony()) {
-                // add some points to score
+            	System.out.println("We got a pony! Yum.");
                 
             } else if (currentLocation.isGoal()) {
                 isAlive = false;
-                //System.out.println("We made it to the exit!");
+                System.out.println("We made it to the exit!");
             }
         }
-        
-        
-        
-        
-        
-        
-        // TODO finish this
-     // now we keep track of the score
-        if (env.getAgentTile().hasTroll()) {
-            //overallScore -= 15;
-        }
-        if (env.getAgentTile().hasPony()) {
-            //overallScore += 10;
-        }
-        if (env.getAgentTile().isGoal()) {
-            //overallScore += 15;
-        }
-        
-        return -1;
     }
     
     /**

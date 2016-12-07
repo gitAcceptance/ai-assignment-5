@@ -15,7 +15,7 @@ import java.util.*;
 public class QLearning {
     
     Random rand;
-    public final int EPOCHS = 5000;
+    public final int EPOCHS = 250;
     
     public QLearning() {
         this.rand = new Random();
@@ -32,7 +32,6 @@ public class QLearning {
         PrintWriter writer = null;
 
         int time = 0;
-        int overallScore = 0;
         int poniesEaten = 0;
         int epochCount = 0;
         
@@ -78,24 +77,20 @@ public class QLearning {
             
             
             
-            // TODO keep track of the ponies we ate
+            // TODO Maybe done? keep track of the ponies we ate
             //System.out.println("ecpoch count is: " + epochCount);
             epochCount++;
         }
         System.out.println("I have finished learning!");
         
         // TODO get the visited areas printing
+        System.out.println("I am now exploting my learning policy with a.haveGreedyEpisode()");
         a.haveGreedyEpisode();
-      
-        
-        // TODO finish calculating score
         
         // Display the ASCII state of the board
         System.out.println();
-        System.out.println("Score: " + overallScore);
         System.out.println("Ponies eaten : " + poniesEaten + "/" + env.getNUMBER_OF_PONIES());
         writer.println();
-        writer.println("Score: " + overallScore);
         env.drawBoard();
         writer.close();
     }
