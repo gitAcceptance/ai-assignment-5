@@ -71,6 +71,7 @@ public class QLearning {
         
         // learning loop?
         System.out.println("Starting to learn!");
+        a.printRmatrix();
         while (epochCount < EPOCHS) {
             
             a.haveLearningEpisode();
@@ -86,7 +87,9 @@ public class QLearning {
         // TODO get the visited areas printing
         System.out.println("I am now exploting my learning policy with a.haveGreedyEpisode()");
         a.printQmatrix();
+        a.printRmatrix();
         a.haveGreedyEpisode();
+        
         
         // Display the ASCII state of the board
         System.out.println();
@@ -111,7 +114,7 @@ public class QLearning {
         
         System.out.println("********** Run 1/6 with alpha = 0.1, gamma = 0.5 **********");
         QLearning agent = new QLearning();
-        agent.run(fileName, printEachStep, 0.1, 0.5);
+        agent.run(fileName, printEachStep, 0.1, 0.01);
         
         
         

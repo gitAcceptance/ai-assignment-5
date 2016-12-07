@@ -24,7 +24,7 @@ public class Agent {
     private Tile currentLocation;
     private HashMap<Tile, HashMap<Tile, Double>> Q;
     private HashMap<Tile, HashMap<Tile, Double>> R;
-    private HashMap<Tile, HashMap<Tile, Double>> mutableR;
+
     
     
     public Agent(Environment env, double alpha, double gamma, boolean printSteps) {
@@ -179,7 +179,16 @@ public class Agent {
     // one whole learning episode
     public void haveLearningEpisode() {
         env.refresh();
-        this.mutableR = new HashMap<Tile, HashMap<Tile, Double>>(this.R);
+        for (Tile current : this.env.map) {
+	        for (Tile destination: this.env.map) {
+	            if (destination.hasPony()) {
+	                R.get(current).put(destination, 10.0d);
+	            }
+	        }
+        }
+        
+        
+        
         isAlive = true;
         
         Tile agentHome = null;
@@ -205,7 +214,7 @@ public class Agent {
                 isAlive = false;
             } else if (currentLocation.hasPony()) {
                 //System.out.println("We ate a pony!");
-                for (HashMap<Tile, Double> h : mutableR.values()) {
+                for (HashMap<Tile, Double> h : R.values()) {
                     h.put(currentLocation, 0d);
                 }
             } else if (currentLocation.isGoal()) {
@@ -228,6 +237,14 @@ public class Agent {
         
         env.refresh();
         isAlive = true;
+        
+        for (Tile current : this.env.map) {
+	        for (Tile destination: this.env.map) {
+	            if (destination.hasPony()) {
+	                R.get(current).put(destination, 10.0d);
+	            }
+	        }
+        }
         
         Tile agentHome = null;
         do {
@@ -285,7 +302,7 @@ public class Agent {
         
         
         // Q(state, action) = R(state, action) + gamma* MaxOf[Q(next state, all actions)]
-        double rValue = mutableR.get(currentLocation).get(nextState);
+        double rValue = R.get(currentLocation).get(nextState);
         
         double gValue = this.gamma * maxQ(nextState);
         
