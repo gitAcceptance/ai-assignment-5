@@ -111,6 +111,7 @@ public class QLearning {
         }
         
         // Passes Alpha and Gamma as params
+        // TODO !!!!!IMPORTANT!!!!! check with her input file 
         
         System.out.println("********** Run 1/6 with alpha = 0.1, gamma = 0.5 **********");
         QLearning agent = new QLearning();
