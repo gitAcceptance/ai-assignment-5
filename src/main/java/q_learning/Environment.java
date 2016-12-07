@@ -337,8 +337,6 @@ public class Environment {
     }
     
     public void refresh() {
-        
-        // FIXME also have to rerandom a starting position for the agent
         for (Tile t : map) {
             t.resetVisited();
         }

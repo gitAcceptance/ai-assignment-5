@@ -85,6 +85,7 @@ public class QLearning {
         
         // TODO get the visited areas printing
         System.out.println("I am now exploting my learning policy with a.haveGreedyEpisode()");
+        a.printQmatrix();
         a.haveGreedyEpisode();
         
         // Display the ASCII state of the board
