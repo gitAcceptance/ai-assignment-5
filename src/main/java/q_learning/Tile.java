@@ -14,12 +14,13 @@ public class Tile {
     // class constants and variables
     private int row;
     private int col;
-    private boolean hasFurniture = false;
-    private boolean hasPony = false;
-    private boolean isGoal = false;
-    private boolean hasAgent = false;
-    private boolean hasTroll = false;
-    private boolean hasVisited = false;
+    boolean isHome = false;
+    boolean hasFurniture = false;
+    boolean hasPony = false;
+    boolean isGoal = false;
+    boolean hasAgent = false;
+    boolean hasTroll = false;
+    boolean hasVisited = false;
 
 
     // Parameter: row - the row number of the grid

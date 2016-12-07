@@ -15,7 +15,7 @@ import java.util.*;
 public class QLearning {
     
     Random rand;
-    public final int EPOCHS = 250;
+    public final int EPOCHS = 10000;
     
     public QLearning() {
         this.rand = new Random();
@@ -73,7 +73,7 @@ public class QLearning {
         System.out.println("Starting to learn!");
         while (epochCount < EPOCHS) {
             
-            a.haveLearningEpisode(env.getAgentTile());
+            a.haveLearningEpisode();
             
             
             

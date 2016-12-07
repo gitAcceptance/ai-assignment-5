@@ -49,9 +49,10 @@ public class Agent {
                     R.get(current).put(destination, 10.0d);
                 } else if (destination.hasTroll()) {
                     R.get(current).put(destination, -15.0d);
+                } else if (destination.hasFurniture()) {
+                	R.get(current).put(destination, 0.0d);
                 } else {
-                	// TODO this should be 2.0
-                    R.get(current).put(destination, 0.0d);
+                    R.get(current).put(destination, 2.0d);
                 }
             }
         }
@@ -118,8 +119,6 @@ public class Agent {
                 System.out.print(i + "," + j + "  ");
             }
         }
-        //System.out.println();
-        
         
         for (int i = 0; i < env.roomSize; i++) {
             for (int j = 0; j < env.roomSize; j++) {
@@ -131,11 +130,7 @@ public class Agent {
                 }
             }
         }
-        
-        
-        
-        
-        
+        System.out.println();
     }
     
     
@@ -182,16 +177,23 @@ public class Agent {
  // TODO add ability to control which action selection method we use
     
     // one whole learning episode
-    public void haveLearningEpisode(Tile startingLocation) {
+    public void haveLearningEpisode() {
         env.refresh();
         this.mutableR = new HashMap<Tile, HashMap<Tile, Double>>(this.R);
         isAlive = true;
-        this.currentLocation = startingLocation;
+        
+        Tile agentHome = null;
+        do {
+            agentHome = this.env.getTile(rand.nextInt(env.roomSize), rand.nextInt(env.roomSize));
+        } while (agentHome.hasPony() && agentHome.hasTroll() && agentHome.hasFurniture() && agentHome.isGoal());
+        agentHome.hasAgent = true;
+        agentHome.isHome = true;
+        this.currentLocation = agentHome;
         this.currentLocation.setHasVisited();
         
         while (isAlive) {
             //System.out.println("Agent position row:" + currentLocation.getRow() + " col:" + currentLocation.getCol());
-            this.env.setAgentTile(currentLocation);
+            
 //            if (printSteps) {
 //                env.drawBoard();
 //                //printQmatrix();
@@ -218,6 +220,7 @@ public class Agent {
             } catch (Exception e) {
                 // fuck it
             }
+            this.env.setAgentTile(currentLocation);
         }    
     }
     
@@ -229,8 +232,9 @@ public class Agent {
         Tile agentHome = null;
         do {
             agentHome = this.env.getTile(rand.nextInt(env.roomSize), rand.nextInt(env.roomSize));
-        } while (!(agentHome.hasPony() == false && agentHome.hasTroll() == false && agentHome.hasFurniture() == false));
-        
+        } while (agentHome.hasPony() && agentHome.hasTroll() && agentHome.hasFurniture() && agentHome.isGoal());
+        agentHome.hasAgent = true;
+        agentHome.isHome = true;
         this.currentLocation = agentHome;
         this.currentLocation.setHasVisited();
         
@@ -239,7 +243,6 @@ public class Agent {
         
         while (isAlive) {
             System.out.println("Agent position row:" + currentLocation.getRow() + " col:" + currentLocation.getCol());
-            this.env.setAgentTile(currentLocation);
             
             if (printSteps) {
                 env.drawBoard();
@@ -258,7 +261,9 @@ public class Agent {
                 isAlive = false;
                 System.out.println("We made it to the exit!");
             }
+            this.env.setAgentTile(currentLocation);
         }
+        
     }
     
     /**
@@ -296,7 +301,7 @@ public class Agent {
     }
     
     public void greedyActionSelection() {
-        env.drawBoard();
+        //env.drawBoard();
         ArrayList<Tile> possibleFirstActions = this.getPossibleMoves(currentLocation);
         Tile nextState = null;
         for (Tile t : possibleFirstActions) {
@@ -309,8 +314,8 @@ public class Agent {
         }
         this.currentLocation = nextState;
         // TODO is this method done? Hard to know since I haven't written any fucking tests!
-        
-        env.drawBoard();
+        this.currentLocation.setHasVisited();
+        //env.drawBoard();
     }
     
     public Tile getCurrentLocation() {

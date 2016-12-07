@@ -30,6 +30,7 @@ public class Environment {
     final String theGoal = "E";
     final String theTroll = "T";
     final String travelled = "$";
+    final String home = "H";
     
     private Agent steve;
 
@@ -121,6 +122,7 @@ public class Environment {
             do {
                 agentHome = this.getTile(rand.nextInt(roomSize), rand.nextInt(roomSize));
             } while (!(agentHome.hasPony() == false && agentHome.hasTroll() == false && agentHome.hasFurniture() == false));
+            agentHome.isHome = true;
             agentHome.setHasAgent(true);
             agentHome.setHasVisited();
         }
@@ -146,6 +148,9 @@ public class Environment {
 
             if(t.hasAgent()) {
                 theBoard[t.getRow()][t.getCol()] = theAgent;
+            }
+            else if (t.isHome == true) {
+                theBoard[t.getRow()][t.getCol()] = home;
             }
             else if (t.hasFurniture()) {
                 theBoard[t.getRow()][t.getCol()] = theFurniture;
@@ -339,6 +344,8 @@ public class Environment {
     public void refresh() {
         for (Tile t : map) {
             t.resetVisited();
+            t.isHome = false;
+            t.setHasAgent(false);
         }
     }
     
