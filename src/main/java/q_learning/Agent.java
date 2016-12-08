@@ -303,11 +303,12 @@ public class Agent {
         
         
         // Q(state, action) = R(state, action) + gamma* MaxOf[Q(next state, all actions)]
+        double qValue = Q.get(currentLocation).get(nextState);
         double rValue = R.get(currentLocation).get(nextState);
         
-        double gValue = this.gamma * maxQ(nextState);
+        double q = qValue + (alpha * (rValue + (gamma * maxQ(nextState)) - qValue));
         
-        Q.get(currentLocation).put(nextState, rValue + gValue);
+        Q.get(currentLocation).put(nextState, q);
         // Q has now been updated
         
         this.currentLocation = nextState;
