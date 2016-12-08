@@ -138,5 +138,9 @@ public class QLearning {
         agent5.run(fileName, printEachStep, 0.6, 0.9);
         
         // TODO prompt user for alpha, gamma, and varibale learning rate values
+        System.out.println("********** Run with variable learning rate **********");
+        Scanner scan = new Scanner(System.in);
+        QLearning agent6 = new QLearning();
+        agent6.run(fileName, printEachStep, 0.6, 0.9);
     }
 }

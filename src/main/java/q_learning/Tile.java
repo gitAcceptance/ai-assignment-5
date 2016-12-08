@@ -90,6 +90,14 @@ public class Tile {
         this.hasVisited = true;
     }
     
+    public double getLearningRate () {
+    	// TODO
+    	
+    	
+    	
+    	return -1;
+    }
+    
     public void resetVisited() {
         this.hasVisited = false;
     }
