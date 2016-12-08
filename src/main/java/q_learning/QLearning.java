@@ -128,28 +128,68 @@ public class QLearning {
         // Passes Alpha and Gamma as params
         // TODO !!!!!IMPORTANT!!!!! check with her input file 
         
+        System.out.println("********** Variation 1 with alpha = 0.75, gamma = 0.5 **********");
+        QLearning agent1 = new QLearning();
+        agent1.run(fileName, printEachStep, false,  0.75, 0.5);
+        
+        System.out.println();
+        System.out.println("*********************** Variation 2 ***********************");
+        
         System.out.println("********** Run 1/6 with alpha = 0.1, gamma = 0.5 **********");
-        QLearning agent = new QLearning();
-        agent.run(fileName, printEachStep, learningRate,  0.1, 0.5);
+        QLearning agent2 = new QLearning();
+        agent2.run(fileName, printEachStep, false,  0.1, 0.5);
         
         System.out.println("********** Run 2/6 with alpha = 0.5, gamma = 0.5 **********");
-        QLearning agent1 = new QLearning();
-        agent1.run(fileName, printEachStep, learningRate, 0.5, 0.5);
+        QLearning agent3 = new QLearning();
+        agent3.run(fileName, printEachStep, false, 0.5, 0.5);
         
         System.out.println("********** Run 3/6 with alpha = 0.9, gamma = 0.5 **********");
-        QLearning agent2 = new QLearning();
-        agent2.run(fileName, printEachStep, learningRate, 0.9, 0.5);
+        QLearning agent4 = new QLearning();
+        agent4.run(fileName, printEachStep, false, 0.9, 0.5);
         
         System.out.println("********** Run 4/6 with alpha = 0.6, gamma = 0.1 **********");
-        QLearning agent3 = new QLearning();
-        agent3.run(fileName, printEachStep, learningRate, 0.6, 0.1);
+        QLearning agent5 = new QLearning();
+        agent5.run(fileName, printEachStep, false, 0.6, 0.1);
         
         System.out.println("********** Run 5/6 with alpha = 0.6, gamma = 0.5 **********");
-        QLearning agent4 = new QLearning();
-        agent4.run(fileName, printEachStep, learningRate, 0.6, 0.5);
+        QLearning agent6 = new QLearning();
+        agent6.run(fileName, printEachStep, false, 0.6, 0.5);
         
         System.out.println("********** Run 6/6 with alpha = 0.6, gamma = 0.9 **********");
-        QLearning agent5 = new QLearning();
-        agent5.run(fileName, printEachStep, learningRate, 0.6, 0.9);
+        QLearning agent7 = new QLearning();
+        agent7.run(fileName, printEachStep, false, 0.6, 0.9);
+        
+        System.out.println();
+        System.out.println("*********************** Variation 3 ***********************");
+        
+        System.out.println("********** Run 1/6 with alpha = 0.1, gamma = 0.5 **********");
+        QLearning agent8 = new QLearning();
+        agent8.run(fileName, printEachStep, true,  0.1, 0.5);
+        
+        System.out.println("********** Run 2/6 with alpha = 0.5, gamma = 0.5 **********");
+        QLearning agent9 = new QLearning();
+        agent9.run(fileName, printEachStep, true, 0.5, 0.5);
+        
+        System.out.println("********** Run 3/6 with alpha = 0.9, gamma = 0.5 **********");
+        QLearning agent10 = new QLearning();
+        agent10.run(fileName, printEachStep, true, 0.9, 0.5);
+        
+        System.out.println("********** Run 4/6 with alpha = 0.6, gamma = 0.1 **********");
+        QLearning agent11 = new QLearning();
+        agent11.run(fileName, printEachStep, true, 0.6, 0.1);
+        
+        System.out.println("********** Run 5/6 with alpha = 0.6, gamma = 0.5 **********");
+        QLearning agent12 = new QLearning();
+        agent12.run(fileName, printEachStep, true, 0.6, 0.5);
+        
+        System.out.println("********** Run 6/6 with alpha = 0.6, gamma = 0.9 **********");
+        QLearning agent13 = new QLearning();
+        agent13.run(fileName, printEachStep, true, 0.6, 0.9);
+        
+        
+        
+        
+        
+        
     }
 }
