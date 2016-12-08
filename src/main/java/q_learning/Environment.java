@@ -145,29 +145,21 @@ public class Environment {
         String[][] theBoard = new String[roomSize][roomSize];
 
         for (Tile t : this.map) {
-
-            if(t.hasAgent()) {
-                theBoard[t.getRow()][t.getCol()] = theAgent;
-            }
-            else if (t.isHome == true) {
-                theBoard[t.getRow()][t.getCol()] = home;
-            }
-            else if (t.hasFurniture()) {
-                theBoard[t.getRow()][t.getCol()] = theFurniture;
-            }
-            else if (t.hasVisited()) {
-                theBoard[t.getRow()][t.getCol()] = travelled;
-            }
-            else if (t.hasPony()) {
-                theBoard[t.getRow()][t.getCol()] = thePony;
-            }
-            else if (t.isGoal()) {
+            if(t.isGoal()) {
                 theBoard[t.getRow()][t.getCol()] = theGoal;
-            }
-            else if (t.hasTroll()) {
+            } else if (t.hasAgent()) {
+                theBoard[t.getRow()][t.getCol()] = theAgent;
+            } else if (t.isHome == true) {
+                theBoard[t.getRow()][t.getCol()] = home;
+            } else if (t.hasFurniture()) {
+                theBoard[t.getRow()][t.getCol()] = theFurniture;
+            } else if (t.hasVisited()) {
+                theBoard[t.getRow()][t.getCol()] = travelled;
+            } else if (t.hasPony()) {
+                theBoard[t.getRow()][t.getCol()] = thePony;
+            } else if (t.hasTroll()) {
                 theBoard[t.getRow()][t.getCol()] = theTroll;
-            } 
-            else {
+            } else {
                 theBoard[t.getRow()][t.getCol()] = " ";
             }
         }

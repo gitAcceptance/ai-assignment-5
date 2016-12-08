@@ -174,11 +174,12 @@ public class Agent {
         return Q.get(target).get(max);
     }
     
- // TODO add ability to control which action selection method we use
     
     // one whole learning episode
     public void haveLearningEpisode() {
         env.refresh();
+        
+        // Need to reset the changes we made to the R matrix during the last episode .
         for (Tile current : this.env.map) {
 	        for (Tile destination: this.env.map) {
 	            if (destination.hasPony()) {
@@ -238,13 +239,13 @@ public class Agent {
         env.refresh();
         isAlive = true;
         
-        for (Tile current : this.env.map) {
+        /*for (Tile current : this.env.map) {
 	        for (Tile destination: this.env.map) {
 	            if (destination.hasPony()) {
 	                R.get(current).put(destination, 10.0d);
 	            }
 	        }
-        }
+        }*/
         
         Tile agentHome = null;
         do {
