@@ -233,7 +233,6 @@ public class Agent {
     }
     
     public int haveGreedyEpisode() {
-        int numberOfPoniesEaten = 0;
         env.refresh();
         isAlive = true;
         
@@ -268,28 +267,21 @@ public class Agent {
             greedyActionSelection();
             
             if (currentLocation.hasTroll()) {
-//            	System.out.print("We hit a troll.");
+            	System.out.print("We hit a troll.");
                 isAlive = false;
             } else if (currentLocation.hasPony()) {
 //            	System.out.println("We got a pony! Yum.");
-                numberOfPoniesEaten++;
             } else if (currentLocation.isGoal()) {
                 isAlive = false;
 //                System.out.println("We made it to the exit!");
             }
+            
             this.env.setAgentTile(currentLocation);
         }
-        return numberOfPoniesEaten;
+        return env.numberOfPoniesEaten();
     }
     
-    /**
-     * The Agent decides where to move next.
-     *  
-     * Neighbor tile labels are:
-     * 0 1 2
-     * 3 A 4
-     * 5 6 7
-     */
+    
     public void learningActionSelection() {
         if (env.getAgentTile() == null) {
             System.out.println("uh oh");
@@ -315,7 +307,7 @@ public class Agent {
         
         this.currentLocation = nextState;
         //env.setAgentTile(this.currentLocation);
-        this.currentLocation.setHasVisited();
+        
         //System.out.println("Agent position after move row:" + currentLocation.getRow() + " col:" + currentLocation.getCol());
         // TODO is this method done? Hard to know since I haven't written any fucking tests!
         
@@ -325,13 +317,18 @@ public class Agent {
         //env.drawBoard();
         ArrayList<Tile> possibleFirstActions = this.getPossibleMoves(currentLocation);
         Tile nextState = null;
-        for (Tile t : possibleFirstActions) {
-            if (nextState == null) {
-                nextState = t;
-            }
-            if (Q.get(currentLocation).get(t) > Q.get(currentLocation).get(nextState)) {
-                nextState = t;
-            }
+        int roll = rand.nextInt(possibleFirstActions.size());
+        if (roll == 1 && possibleFirstActions.size() > 3) {
+        	nextState = possibleFirstActions.get(rand.nextInt(possibleFirstActions.size()));
+        } else {
+	        for (Tile t : possibleFirstActions) {
+	            if (nextState == null) {
+	                nextState = t;
+	            }
+	            if (Q.get(currentLocation).get(t) > Q.get(currentLocation).get(nextState)) {
+	                nextState = t;
+	            }
+	        }
         }
         this.currentLocation = nextState;
         // TODO is this method done? Hard to know since I haven't written any fucking tests!

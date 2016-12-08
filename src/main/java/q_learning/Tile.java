@@ -17,6 +17,7 @@ public class Tile {
     boolean isHome = false;
     boolean hasFurniture = false;
     boolean hasPony = false;
+    boolean ponyHasBeenEaten = false;
     boolean isGoal = false;
     boolean hasAgent = false;
     boolean hasTroll = false;
@@ -89,6 +90,7 @@ public class Tile {
 
     public void setHasVisited() {
         this.hasVisited = true;
+        this.ponyHasBeenEaten = true;
         this.timesVisited++;
     }
     

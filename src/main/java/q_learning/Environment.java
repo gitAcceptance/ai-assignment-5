@@ -342,6 +342,16 @@ public class Environment {
         }
     }
     
+    public int numberOfPoniesEaten() {
+    	int count = 0;
+    	for (Tile t : map) {
+    		if (t.hasVisited && t.hasPony) {
+    			count++;
+    		}
+    	}
+    	return count;
+    }
+    
     public void setAgent(Agent a) {
         this.steve = a;
     }
