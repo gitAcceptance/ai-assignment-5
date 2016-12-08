@@ -338,6 +338,7 @@ public class Environment {
             t.resetVisited();
             t.isHome = false;
             t.setHasAgent(false);
+            t.timesVisited = 0;
         }
     }
     

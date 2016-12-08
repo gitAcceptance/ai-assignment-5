@@ -18,6 +18,7 @@ public class Agent {
     private static Random rand = new Random();
     private boolean isAlive;
     private boolean printSteps;
+    private boolean useVariableLearingRate;
     private double alpha;
     private double gamma;
     private Environment env;
@@ -27,12 +28,13 @@ public class Agent {
 
     
     
-    public Agent(Environment env, double alpha, double gamma, boolean printSteps) {
+    public Agent(Environment env, double alpha, double gamma, boolean printSteps, boolean useVariableLearingRate) {
         this.isAlive = true;
         this.env = env;
         this.alpha = alpha;
         this.gamma = gamma;
         this.printSteps = printSteps;
+        this.useVariableLearingRate = useVariableLearingRate;
         
         this.Q = new HashMap<Tile, HashMap<Tile, Double>>();
         this.R = new HashMap<Tile, HashMap<Tile, Double>>();
@@ -234,8 +236,8 @@ public class Agent {
         }    
     }
     
-    public void haveGreedyEpisode() {
-        
+    public int haveGreedyEpisode() {
+        int numberOfPoniesEaten = 0;
         env.refresh();
         isAlive = true;
         
@@ -274,14 +276,14 @@ public class Agent {
                 isAlive = false;
             } else if (currentLocation.hasPony()) {
 //            	System.out.println("We got a pony! Yum.");
-                
+                numberOfPoniesEaten++;
             } else if (currentLocation.isGoal()) {
                 isAlive = false;
 //                System.out.println("We made it to the exit!");
             }
             this.env.setAgentTile(currentLocation);
         }
-        
+        return numberOfPoniesEaten;
     }
     
     /**
@@ -305,8 +307,12 @@ public class Agent {
         // Q(state, action) = R(state, action) + gamma* MaxOf[Q(next state, all actions)]
         double qValue = Q.get(currentLocation).get(nextState);
         double rValue = R.get(currentLocation).get(nextState);
-        
-        double q = qValue + (alpha * (rValue + (gamma * maxQ(nextState)) - qValue));
+        double q = -1d;
+        if (useVariableLearingRate) {
+        	q = qValue + (nextState.getLearningRate() * (rValue + (gamma * maxQ(nextState)) - qValue));
+        } else {
+        	q = qValue + (alpha * (rValue + (gamma * maxQ(nextState)) - qValue));
+        }
         
         Q.get(currentLocation).put(nextState, q);
         // Q has now been updated

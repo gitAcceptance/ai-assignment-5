@@ -21,6 +21,7 @@ public class Tile {
     boolean hasAgent = false;
     boolean hasTroll = false;
     boolean hasVisited = false;
+    int timesVisited = 0;
 
 
     // Parameter: row - the row number of the grid
@@ -88,14 +89,15 @@ public class Tile {
 
     public void setHasVisited() {
         this.hasVisited = true;
+        this.timesVisited++;
     }
     
     public double getLearningRate () {
-    	// TODO
-    	
-    	
-    	
-    	return -1;
+    	if (timesVisited == 0) {
+    		return 1;
+    	} else {
+    		return 1d/timesVisited;
+    	}
     }
     
     public void resetVisited() {
