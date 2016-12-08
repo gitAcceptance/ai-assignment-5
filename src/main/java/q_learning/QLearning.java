@@ -25,14 +25,9 @@ public class QLearning {
 
     // Run the instance of QLearning.java
     public void run(String fileName, boolean printEachStep, boolean learningRate, double alpha, double gamma) {
-
-        printEachStep = true;
-        String moveStr;
-        boolean agentOn = true;
+        printEachStep = false;
         PrintWriter writer = null;
 
-        int time = 0;
-        int poniesEaten = 0;
         int epochCount = 0;
         
 
