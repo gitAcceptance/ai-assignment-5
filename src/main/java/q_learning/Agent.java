@@ -206,10 +206,6 @@ public class Agent {
         while (isAlive) {
             //System.out.println("Agent position row:" + currentLocation.getRow() + " col:" + currentLocation.getCol());
             
-//            if (printSteps) {
-//                env.drawBoard();
-//                //printQmatrix();
-//            }
             learningActionSelection();
             
             if (currentLocation.hasTroll()) {
@@ -262,10 +258,10 @@ public class Agent {
         
         
         while (isAlive) {
-//            System.out.println("Agent position row:" + currentLocation.getRow() + " col:" + currentLocation.getCol());
             
             if (printSteps) {
-//                env.drawBoard();
+              System.out.println("Agent position row:" + currentLocation.getRow() + " col:" + currentLocation.getCol());
+                env.drawBoard();
                 //printQmatrix();
             }
             

@@ -88,12 +88,12 @@ public class QLearning {
         System.out.println("I am now exploting my learning policy with a.haveGreedyEpisode()");
         //a.printQmatrix();
         //a.printRmatrix();
-        a.haveGreedyEpisode();
+        int ponyCount = a.haveGreedyEpisode();
         
         
         // Display the ASCII state of the board
         System.out.println();
-        System.out.println("Ponies eaten : " + poniesEaten + "/" + env.getNUMBER_OF_PONIES());
+        System.out.println("Ponies eaten : " + ponyCount + "/" + env.getNUMBER_OF_PONIES());
         writer.println();
         env.drawBoard();
         writer.close();
