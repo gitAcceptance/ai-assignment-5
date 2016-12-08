@@ -260,24 +260,24 @@ public class Agent {
         
         
         while (isAlive) {
-            System.out.println("Agent position row:" + currentLocation.getRow() + " col:" + currentLocation.getCol());
+//            System.out.println("Agent position row:" + currentLocation.getRow() + " col:" + currentLocation.getCol());
             
             if (printSteps) {
-                env.drawBoard();
+//                env.drawBoard();
                 //printQmatrix();
             }
             
             greedyActionSelection();
             
             if (currentLocation.hasTroll()) {
-            	System.out.print("We hit a troll.");
+//            	System.out.print("We hit a troll.");
                 isAlive = false;
             } else if (currentLocation.hasPony()) {
-            	System.out.println("We got a pony! Yum.");
+//            	System.out.println("We got a pony! Yum.");
                 
             } else if (currentLocation.isGoal()) {
                 isAlive = false;
-                System.out.println("We made it to the exit!");
+//                System.out.println("We made it to the exit!");
             }
             this.env.setAgentTile(currentLocation);
         }
